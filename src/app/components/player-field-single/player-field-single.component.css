@@ -1,0 +1,10 @@
+.card-space{
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+td{
+    padding-left: 30px;
+    padding-right: 20px;
+    border: 1px solid rgb(236, 236, 236);
+}

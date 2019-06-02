@@ -1,0 +1,22 @@
+<td>
+  <div>
+    <button (click)="subtractPerfectPairBet(-100); onUpdatePlayer(100)" disabled="{{isPPBetMinusEnabled}}"> - </button>
+    <span> ${{slotInformation.perfectBet}} </span>
+    <button (click)="addPerfectPairBet(100); onUpdatePlayer(-100)" disabled="{{isPPBetPlusEnabled}}"> + </button>
+  </div>
+  <div>
+    <button (click)="subtractRegularBet(-100); onUpdatePlayer(100)" disabled="{{isRegBetMinusEnabled}}"> - </button>
+    <span> ${{slotInformation.regularBet}} </span>
+    <button (click)="addRegularBet(100); onUpdatePlayer(-100)" disabled="{{isRegBetPlusEnabled}}"> + </button>
+  </div>
+  <div class="card-space">
+    <app-card-spaces></app-card-spaces>
+  </div>
+  <div>
+    <button (click)="stop()" disabled="{{isStopEnabled}}"> Stop </button>
+    <button (click)="hit()" disabled="{{isHitEnabled}}"> HIT ME </button>
+  </div>
+  <div>
+    Seat {{slotInformation.seatNumber}}
+  </div>
+</td>
