@@ -10,7 +10,10 @@
     <button (click)="addRegularBet(100); onUpdatePlayer(-100)" disabled="{{isRegBetPlusEnabled}}"> + </button>
   </div>
   <div class="card-space">
-    <app-card-spaces></app-card-spaces>
+    <app-card-spaces
+    [slotInfo] = "slotInformation"
+    >
+    </app-card-spaces>
   </div>
   <div>
     <button (click)="stop()" disabled="{{isStopEnabled}}"> Stop </button>

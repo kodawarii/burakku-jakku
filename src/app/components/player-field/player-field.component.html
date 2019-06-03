@@ -1,24 +1,31 @@
-<table>
-  <tbody>
-    <tr>
-      
-      <app-player-field-single 
-      *ngFor = "let singleItem of playerFieldSingleComponents;"
-      [slotInformation] = "singleItem"
-      (updatePlayerInfo) = "updatePlayer($event)"
-      >
-      </app-player-field-single>
+<div>
 
-    </tr>
+  <app-dealer
+  
+  >
+  </app-dealer>
 
-    <tr>
-        <td>
-          <app-heads-up-display
-          *ngFor = "let onePlayer2 of player"
-          [playerInfo] = "onePlayer2"
-          >
-          </app-heads-up-display>
-        </td>
-    </tr>
-  </tbody>
-</table>
+  <app-game-status-bar
+  (dealCards) = "dealCards2($event)"
+  >
+  </app-game-status-bar>
+
+  <table>
+    <tbody>
+      <tr>
+        <app-player-field-single 
+        *ngFor = "let singleItem of playerFieldSingleComponents"
+        [slotInformation] = "singleItem"
+        (updatePlayerInfo) = "updatePlayer($event)"
+        >
+        </app-player-field-single>
+      </tr>
+    </tbody>
+  </table>
+
+  <app-heads-up-display
+    [playerInfo] = "player"
+  >
+  </app-heads-up-display>
+
+</div>

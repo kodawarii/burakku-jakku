@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { PlayerFieldSingleModel } from 'src/app/models/PlayerFieldSingleModel';
 
+import { Card } from 'src/app/models/Card';
+
 @Component({
   selector: 'app-player-field-single',
   templateUrl: './player-field-single.component.html',
@@ -17,7 +19,7 @@ export class PlayerFieldSingleComponent implements OnInit {
   @Input() slotInformation: PlayerFieldSingleModel;
   @Output() updatePlayerInfo: EventEmitter<number> = new EventEmitter();
 
-  // Random Properties
+  // Button State Props
   isStopEnabled:boolean;
   isHitEnabled:boolean;
   
@@ -45,59 +47,65 @@ export class PlayerFieldSingleComponent implements OnInit {
    *  
    * */ 
   subtractPerfectPairBet(value){
-    console.log("Subtracting Perfect Pair Bet at seat " + this.slotInformation.seatNumber);
+    //console.log("Subtracting Perfect Pair Bet at seat " + this.slotInformation.seatNumber);
     
     this.isPPBetMinusEnabled = null;
     this.slotInformation.perfectBet += value;
+    this.slotInformation.live = true;
     
     if(this.slotInformation.perfectBet == 0){
       this.isPPBetMinusEnabled = false;
+      this.slotInformation.live = false;
     }
   }
 
   addPerfectPairBet(value){
-    console.log("Adding Perfect Pair Bet at seat " + this.slotInformation.seatNumber);
+    //console.log("Adding Perfect Pair Bet at seat " + this.slotInformation.seatNumber);
 
     if(this.slotInformation.perfectBet == 0){ // && Player had enough money
       this.isPPBetMinusEnabled = null;
+      this.slotInformation.live = true;
     }
     
     this.slotInformation.perfectBet += value;
   }
 
   subtractRegularBet(value){
-    console.log("Subtracting Regular Bet at seat " + this.slotInformation.seatNumber);
+    //console.log("Subtracting Regular Bet at seat " + this.slotInformation.seatNumber);
    
     this.isRegBetMinusEnabled = null;
     this.slotInformation.regularBet += value;
-    
+    this.slotInformation.live = true;
+
     if(this.slotInformation.regularBet == 0){
       this.isRegBetMinusEnabled = false;
+      this.slotInformation.live = false;
     }
   }
 
   addRegularBet(value){
-    console.log("Adding Regular Bet at seat " + this.slotInformation.seatNumber);
+    //console.log("Adding Regular Bet at seat " + this.slotInformation.seatNumber);
 
     if(this.slotInformation.regularBet == 0){ // && Player had enough money
       this.isRegBetMinusEnabled = null;
+      this.slotInformation.live = true;
     }
     
     this.slotInformation.regularBet += value;
   }
 
   stop(){
-    console.log("Stopping Card Deals at seat " + this.slotInformation.seatNumber);
+    //console.log("Stopping Card Deals at seat " + this.slotInformation.seatNumber);
     
     this.slotInformation.state = true;
-    console.log("State of Seat: " + this.slotInformation.state);
+    //console.log("State of Seat: " + this.slotInformation.state);
   }
 
   hit(){
-    console.log("Hitting Cards at seat " + this.slotInformation.seatNumber);
+    //console.log("Hitting Cards at seat " + this.slotInformation.seatNumber);
     
-    this.slotInformation.cards.push(0);
-    console.log("Cards: " + this.slotInformation.cards);
+    this.slotInformation.cards.push(new Card());
+    //console.log("Cards: " + this.slotInformation.cards);
   }
 
   /**
@@ -105,7 +113,7 @@ export class PlayerFieldSingleComponent implements OnInit {
    * 
    * */
   onUpdatePlayer(value){
-    console.log(value);
+    //console.log(value);
     this.updatePlayerInfo.emit(value);
   }
 }

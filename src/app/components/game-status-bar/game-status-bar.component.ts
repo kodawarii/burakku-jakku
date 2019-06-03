@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-game-status-bar',
@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GameStatusBarComponent implements OnInit {
 
+  @Output() dealCards: EventEmitter<any> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  deal(){
+    console.log("Dealing");
+    this.dealCards.emit();
   }
 
 }
