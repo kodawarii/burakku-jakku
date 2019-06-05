@@ -30,7 +30,6 @@ export class PlayerFieldComponent implements OnInit {
     this.dealer = {
       dealersCards: [],
     };
-    
 
     this.player = {
       money: 10000,
@@ -109,7 +108,7 @@ export class PlayerFieldComponent implements OnInit {
       }
     }
 
-    //console.log(this.playerFieldSingleComponents[0].cards);
+    //console.log(this.playerFieldSingleComponents);
   }
 
   initializeCardDeck(){

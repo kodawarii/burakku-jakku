@@ -10,55 +10,66 @@ import { PlayerFieldSingleModel } from 'src/app/models/PlayerFieldSingleModel';
 })
 export class CardSpacesComponent implements OnInit {
 
-  @Input() slotInfo:PlayerFieldSingleModel;
+  @Input() slotInfo:PlayerFieldSingleModel; // ** Still dont understand why this gives Undefined at the end??
 
-  actualCard1:string = "Show";
-  actualCard2:string = "Show";
-  actualCard3:string = "Show";
-  actualCard4:string = "Show";
+  slotInfoCleaned:PlayerFieldSingleModel; // ** This doesnt even work still 
+
+  actualCard1:string = "??";
+  actualCard2:string = "??";
+  actualCard3:string = "??";
+  actualCard4:string = "??";
 
   constructor() { }
 
   ngOnInit() {
-  }
-
-  showCards1(){
-    try {
-      this.actualCard1 = this.slotInfo.cards[1].value + this.slotInfo.cards[1].suite;
-      throw new Error('Card1 hasnt Been dealt yet!');
-    }
-    catch(e) {
-      console.log(e);
+    if(this.slotInfo != undefined){
+      this.slotInfoCleaned = this.slotInfo;
+      // console.log(this.slotInfoCleaned); // **
     }
   }
 
-  showCards2(){
-    try {
-      this.actualCard1 = this.slotInfo.cards[1].value + this.slotInfo.cards[1].suite;
-      throw new Error('Card2 hasnt Been dealt yet!');
-    }
-    catch(e) {
-      console.log(e);
-    }
-  }
-  
-  showCards3(){
-    try {
-      this.actualCard1 = this.slotInfo.cards[1].value + this.slotInfo.cards[1].suite;
-      throw new Error('Card3 hasnt Been dealt yet!');
-    }
-    catch(e) {
-      console.log(e);
-    }
-  }
+  showCards(x:number){
 
-  showCards4(){
-    try {
-      this.actualCard1 = this.slotInfo.cards[1].value + this.slotInfo.cards[1].suite;
-      throw new Error('4');
-    }
-    catch(e) {
-      console.log(e);
+    switch(x){
+      case 1:
+      try {
+        this.actualCard1 = this.slotInfo.cards[x].value + this.slotInfo.cards[x].suite;
+        throw new Error('Card' + x + ' hasnt Been dealt yet!');
+      }
+      catch(e) {
+        console.log(e);
+      }
+      break;
+
+      case 2:
+      try {
+        this.actualCard2 = this.slotInfo.cards[x].value + this.slotInfo.cards[x].suite;
+        throw new Error('Card' + x + ' hasnt Been dealt yet!');
+      }
+      catch(e) {
+        console.log(e);
+      }
+      break;
+
+      case 3:
+      try {
+        this.actualCard3 = this.slotInfo.cards[x].value + this.slotInfo.cards[x].suite;
+        throw new Error('Card' + x + ' hasnt Been dealt yet!');
+      }
+      catch(e) {
+        console.log(e);
+      }
+      break;
+
+      case 4:
+      try {
+        this.actualCard4 = this.slotInfo.cards[x].value + this.slotInfo.cards[x].suite;
+        throw new Error('Card' + x + ' hasnt Been dealt yet!');
+      }
+      catch(e) {
+        console.log(e);
+      }
+      break;
     }
   }
 }
