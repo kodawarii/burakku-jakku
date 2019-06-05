@@ -10,9 +10,9 @@ import { PlayerFieldSingleModel } from 'src/app/models/PlayerFieldSingleModel';
 })
 export class CardSpacesComponent implements OnInit {
 
-  @Input() slotInfo:PlayerFieldSingleModel; // ** Still dont understand why this gives Undefined at the end??
+  @Input() cards:Card[]; // ** Still dont understand why this gives Undefined at the end??
 
-  slotInfoCleaned:PlayerFieldSingleModel; // ** This doesnt even work still 
+  cardsCleaned:PlayerFieldSingleModel; // ** This doesnt even work still 
 
   actualCard1:string = "??";
   actualCard2:string = "??";
@@ -22,10 +22,12 @@ export class CardSpacesComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if(this.slotInfo != undefined){
-      this.slotInfoCleaned = this.slotInfo;
-      // console.log(this.slotInfoCleaned); // **
+    /*
+    if(this.cards != undefined){
+      this.cardsCleaned = this.cards;
+      // console.log(this.cardsCleaned); // **
     }
+    */
   }
 
   showCards(x:number){
@@ -33,7 +35,7 @@ export class CardSpacesComponent implements OnInit {
     switch(x){
       case 1:
       try {
-        this.actualCard1 = this.slotInfo.cards[x].value + this.slotInfo.cards[x].suite;
+        this.actualCard1 = this.cards[x].value + this.cards[x].suite;
         throw new Error('Card' + x + ' hasnt Been dealt yet!');
       }
       catch(e) {
@@ -43,7 +45,7 @@ export class CardSpacesComponent implements OnInit {
 
       case 2:
       try {
-        this.actualCard2 = this.slotInfo.cards[x].value + this.slotInfo.cards[x].suite;
+        this.actualCard2 = this.cards[x].value + this.cards[x].suite;
         throw new Error('Card' + x + ' hasnt Been dealt yet!');
       }
       catch(e) {
@@ -53,7 +55,7 @@ export class CardSpacesComponent implements OnInit {
 
       case 3:
       try {
-        this.actualCard3 = this.slotInfo.cards[x].value + this.slotInfo.cards[x].suite;
+        this.actualCard3 = this.cards[x].value + this.cards[x].suite;
         throw new Error('Card' + x + ' hasnt Been dealt yet!');
       }
       catch(e) {
@@ -63,7 +65,7 @@ export class CardSpacesComponent implements OnInit {
 
       case 4:
       try {
-        this.actualCard4 = this.slotInfo.cards[x].value + this.slotInfo.cards[x].suite;
+        this.actualCard4 = this.cards[x].value + this.cards[x].suite;
         throw new Error('Card' + x + ' hasnt Been dealt yet!');
       }
       catch(e) {

@@ -1,6 +1,8 @@
 <div class="dealer-div">
   <p>Dealer</p>
   <app-card-spaces
-  
-  ></app-card-spaces>
+  [cards] = "dealerInformation.dealersCards"
+  >
+  </app-card-spaces>
+  <p> {{dealerInformation.total}} </p>
 </div>

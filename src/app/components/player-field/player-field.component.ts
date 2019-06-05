@@ -32,7 +32,8 @@ export class PlayerFieldComponent implements OnInit {
       atLeastOnePlayerMadeBet: true,
       initialDeal: false,
       finalDeal: false,
-      dealersCards: [],
+      dealersCards: [{value:" ", suite: " "}],
+      total: 0,
     };
 
     this.player = {
@@ -112,6 +113,12 @@ export class PlayerFieldComponent implements OnInit {
       this.dealer.atLeastOnePlayerMadeBet = null;
       this.dealer.message = "Deal!";
     }
+
+    // Catch final dealer check
+    if(this.dealer.initialDeal){
+      this.dealer.atLeastOnePlayerMadeBet = true;
+      this.dealer.message = "No More Bets! DAFAQ BET BUTTONS SHOULD BE DEAD NOW";
+    }
   }
 
   dealCards2(event:any){
@@ -136,6 +143,12 @@ export class PlayerFieldComponent implements OnInit {
         // Calculate Totals of that Slot after dealing to each slot
         this.playerFieldSingleComponents[i].total += this.getNumberValueOf(someCard.value);
       }
+    }
+
+    // Calculate totals for Dealer
+    for(let i=1; i < this.dealer.dealersCards.length; i++){
+      this.dealer.total += this.getNumberValueOf(this.dealer.dealersCards[i].value);
+      //console.log(typeof this.getNumberValueOf(this.dealer.dealersCards[i].value));
     }
 
     //console.log(this.playerFieldSingleComponents);
