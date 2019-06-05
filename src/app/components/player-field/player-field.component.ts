@@ -40,6 +40,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         cards: [{value:" ", suite: " "}],
+        total: 0,
         seatNumber: 1,
         live: false,
         state: false,
@@ -48,6 +49,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         cards: [{value:" ", suite: " "}],
+        total: 0,
         seatNumber: 2,
         live: false,
         state: false,
@@ -56,6 +58,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         cards: [{value:" ", suite: " "}],
+        total: 0,
         seatNumber: 3,
         live: false,
         state: false,
@@ -64,6 +67,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         cards: [{value:" ", suite: " "}],
+        total: 0,
         seatNumber: 4,
         live: false,
         state: false,
@@ -72,6 +76,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         cards: [{value:" ", suite: " "}],
+        total: 0,
         seatNumber: 5,
         live: false,
         state: false,
@@ -80,6 +85,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         cards: [{value:" ", suite: " "}],
+        total: 0,
         seatNumber: 6,
         live: false,
         state: false,
@@ -104,7 +110,11 @@ export class PlayerFieldComponent implements OnInit {
     for(let i = 0; i < this.playerFieldSingleComponents.length; i++){
       if(this.playerFieldSingleComponents[i].live){
         randomNo = Math.floor(Math.random() * this.cards.length);
-        this.playerFieldSingleComponents[i].cards.push(this.cards[randomNo]);
+        let someCard:Card = this.cards[randomNo];
+        this.playerFieldSingleComponents[i].cards.push(someCard);
+
+        // Calculate Totals after dealing to each slot
+        this.playerFieldSingleComponents[i].total += this.getNumberValueOf(someCard.value);
       }
     }
 
@@ -127,5 +137,48 @@ export class PlayerFieldComponent implements OnInit {
       {value: "Q", suite: "s"},{value: "Q", suite: "h"},{value: "Q",suite: "d"},{value: "Q",suite: "c"},
       {value: "K", suite: "s"},{value: "K", suite: "h"},{value: "K",suite: "d"},{value: "K",suite: "c"},
     ]
+  }
+
+  getNumberValueOf(letter:string):number{
+    switch(letter){
+      case "A":
+      return 1;
+
+      case "K":
+      return 10;
+
+      case "Q":
+      return 10;
+
+      case "J":
+      return 10;
+
+      case "T":
+      return 10;
+
+      case "9":
+      return 9;
+
+      case "8":
+      return 8;
+
+      case "7":
+      return 7;
+
+      case "6":
+      return 6;
+
+      case "5":
+      return 5;
+
+      case "4":
+      return 4;
+
+      case "3":
+      return 3;
+
+      case "2":
+      return 2;
+    }
   }
 }

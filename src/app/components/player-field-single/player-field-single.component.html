@@ -14,6 +14,9 @@
     [slotInfo] = "slotInformation"
     >
     </app-card-spaces>
+  <div>
+    <p> {{slotInformation.total}} </p>
+  </div>
   </div>
   <div>
     <button (click)="stop()" disabled="{{isStopEnabled}}"> Stop </button>

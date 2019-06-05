@@ -7,6 +7,7 @@ export class PlayerFieldSingleModel{
     perfectBet:number;
     regularBet:number;
     cards: Card[];
+    total:number;
     seatNumber:number;
     live: boolean;
     state: boolean; // If Stopped, True
