@@ -104,7 +104,7 @@ export class PlayerFieldComponent implements OnInit {
     
     this.player.money += value;
 
-    // Check if Player made at least one bet for dealer button to be available
+    /* Check if Player made at least one bet for dealer button to be available */
     if(this.player.money == this.player.prevRoundMoney){
       this.dealer.atLeastOnePlayerMadeBet = true;
       this.dealer.message = "Make at least 1 bet!";
@@ -114,7 +114,7 @@ export class PlayerFieldComponent implements OnInit {
       this.dealer.message = "Deal!";
     }
 
-    // Catch final dealer check
+    /* Catch final dealer check */
     if(this.dealer.initialDeal){
       this.dealer.atLeastOnePlayerMadeBet = true;
       this.dealer.message = "No More Bets! DAFAQ BET BUTTONS SHOULD BE DEAD NOW";
@@ -124,28 +124,28 @@ export class PlayerFieldComponent implements OnInit {
   dealCards2(event:any){
     //console.log("Dealing Cards in main player field component");
 
-    // First Update Dealers details
+    /* First Update Dealers details */
     this.dealer.initialDeal = true;
     this.dealer.atLeastOnePlayerMadeBet = true; // Disable the Deal Button after first deal
     this.dealer.message = "Good Luck!";
 
-    // Deal cards to Dealer
+    /* Deal cards to Dealer */
     let randomNo:number = Math.floor(Math.random() * this.cards.length);
     this.dealer.dealersCards.push(this.cards[randomNo]);
     
-    // Deal cards to Live Slots
+    /* Deal cards to Live Slots */
     for(let i = 0; i < this.playerFieldSingleComponents.length; i++){
       if(this.playerFieldSingleComponents[i].live){
         randomNo = Math.floor(Math.random() * this.cards.length);
         let someCard:Card = this.cards[randomNo];
         this.playerFieldSingleComponents[i].cards.push(someCard);
 
-        // Calculate Totals of that Slot after dealing to each slot
+        /* Calculate Totals of that Slot after dealing to each slot */
         this.playerFieldSingleComponents[i].total += this.getNumberValueOf(someCard.value);
       }
     }
 
-    // Calculate totals for Dealer
+    /* Calculate Totals for Dealer */
     for(let i=1; i < this.dealer.dealersCards.length; i++){
       this.dealer.total += this.getNumberValueOf(this.dealer.dealersCards[i].value);
       //console.log(typeof this.getNumberValueOf(this.dealer.dealersCards[i].value));
