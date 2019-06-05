@@ -28,10 +28,15 @@ export class PlayerFieldComponent implements OnInit {
     this.initializeCardDeck();
 
     this.dealer = {
+      message: "Make at least 1 Bet!",
+      atLeastOnePlayerMadeBet: true,
+      initialDeal: false,
+      finalDeal: false,
       dealersCards: [],
     };
 
     this.player = {
+      prevRoundMoney: 10000, // @ToDo: After every round, keep track of this
       money: 10000,
     };
 
@@ -97,23 +102,38 @@ export class PlayerFieldComponent implements OnInit {
     //console.log("Updating Player in main player field component - the data itself. Amount: " + value);
     
     this.player.money += value;
+
+    // Check if Player made at least one bet for dealer button to be available
+    if(this.player.money == this.player.prevRoundMoney){
+      this.dealer.atLeastOnePlayerMadeBet = true;
+      this.dealer.message = "Make at least 1 bet!";
+    }
+    else{
+      this.dealer.atLeastOnePlayerMadeBet = null;
+      this.dealer.message = "Deal!";
+    }
   }
 
   dealCards2(event:any){
     //console.log("Dealing Cards in main player field component");
 
-    // Deal this to Dealer
+    // First Update Dealers details
+    this.dealer.initialDeal = true;
+    this.dealer.atLeastOnePlayerMadeBet = true; // Disable the Deal Button after first deal
+    this.dealer.message = "Good Luck!";
+
+    // Deal cards to Dealer
     let randomNo:number = Math.floor(Math.random() * this.cards.length);
     this.dealer.dealersCards.push(this.cards[randomNo]);
     
-    // Deal to Live Player Slots
+    // Deal cards to Live Slots
     for(let i = 0; i < this.playerFieldSingleComponents.length; i++){
       if(this.playerFieldSingleComponents[i].live){
         randomNo = Math.floor(Math.random() * this.cards.length);
         let someCard:Card = this.cards[randomNo];
         this.playerFieldSingleComponents[i].cards.push(someCard);
 
-        // Calculate Totals after dealing to each slot
+        // Calculate Totals of that Slot after dealing to each slot
         this.playerFieldSingleComponents[i].total += this.getNumberValueOf(someCard.value);
       }
     }

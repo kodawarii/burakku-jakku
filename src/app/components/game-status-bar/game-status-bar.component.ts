@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
+import { Dealer } from 'src/app/models/Dealer';
 
 @Component({
   selector: 'app-game-status-bar',
@@ -7,7 +8,10 @@ import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 })
 export class GameStatusBarComponent implements OnInit {
 
-  @Output() dealCards: EventEmitter<any> = new EventEmitter();
+  @Input() dealerInfo:Dealer;
+  @Output() dealCards:EventEmitter<any> = new EventEmitter();
+
+  isDealEnabled:boolean;
 
   constructor() { }
 

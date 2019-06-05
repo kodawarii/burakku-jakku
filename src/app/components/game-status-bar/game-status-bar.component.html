@@ -1,4 +1,4 @@
 <div class="game-status-div">
   <span> Place Your Bets: 30 Seconds Remaining </span>
-  <button (click)="deal()"> Deal! </button>
+  <button (click)="deal()" disabled="{{dealerInfo.atLeastOnePlayerMadeBet}}"> {{dealerInfo.message}} </button>
 </div>
