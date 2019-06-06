@@ -37,8 +37,11 @@ export class PlayerFieldComponent implements OnInit {
       totalStopped: 0,
     };
 
+    /**
+     * @TODO After every round, keep track of prevRoundMoney
+     */
     this.player = {
-      prevRoundMoney: 10000, // @ToDo: After every round, keep track of this
+      prevRoundMoney: 10000,
       money: 500,
     };
 
@@ -184,25 +187,54 @@ export class PlayerFieldComponent implements OnInit {
       }
     }
 
-    /* #6 Calculate Totals for Dealer */
-    for(let i=1; i < this.dealer.dealersCards.length; i++){
-      this.dealer.total += this.getNumberValueOf(this.dealer.dealersCards[i].value);
-      //console.log(typeof this.getNumberValueOf(this.dealer.dealersCards[i].value));
-    }    
-
+    /* #6 Calculate Total for Dealer */
+    this.dealer.total += this.getNumberValueOf(this.dealer.dealersCards[1].value);
+        
     /* ... End of dealCards2() */
     return 0;
   }
 
-  dealDealer(){
-    
+  async dealDealer(){
+    // Keep dealing until 17 reached or Busted or got 21
+
+    let gotBusted:boolean = false;
+    let got21:boolean = false;
+    let got17ish:boolean = false;
+
+    while(!gotBusted && !got21 && !got17ish){
+      let randomNo:number = Math.floor(Math.random() * this.deckOfCards.length);
+      let randomCard:Card = this.deckOfCards[randomNo];
+      this.dealer.dealersCards.push(randomCard);
+      this.dealer.total += this.getNumberValueOf(randomCard.value);
+
+      if(this.dealer.total > 21){
+        gotBusted = true;
+      }
+      else if(this.dealer.total == 21){
+        got21 = true;
+      }
+      else if(this.dealer.total >= 17 && this.dealer.total <= 20){
+        got17ish = true;
+      }
+
+      // await sleep(1000);
+    }
+
+    /*
+    function sleep(ms = 0) {
+      return new Promise(r => setTimeout(r, ms));
+    }
+    */
   }
+
+  
 
   incrementStoppedPlayersCount(){
     this.dealer.totalStopped++;
     
     /**
      *  Activate the Deal Button again once all seats are either BUST or Stopped 
+     * 
      * @TODO need to do something about when ALL BUST ie gameover
      * 
      * */ 
