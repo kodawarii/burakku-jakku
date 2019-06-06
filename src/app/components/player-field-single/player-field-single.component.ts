@@ -3,6 +3,7 @@ import { PlayerFieldSingleModel } from 'src/app/models/PlayerFieldSingleModel';
 
 import { Card } from 'src/app/models/Card';
 import { Dealer } from 'src/app/models/Dealer';
+import { Player } from 'src/app/models/Player';
 
 @Component({
   selector: 'app-player-field-single',
@@ -20,6 +21,7 @@ export class PlayerFieldSingleComponent implements OnInit {
   @Input() slotInformation: PlayerFieldSingleModel;
   @Input() dealer: Dealer;
   @Input() deckOfCards: Card[];
+  @Input() player:Player;
 
   @Output() updatePlayerInfo: EventEmitter<number> = new EventEmitter();
   @Output() calculateTotals: EventEmitter<object> = new EventEmitter(); // *Cannot send multiple parameters with EventEmitter() so use objects instead
@@ -59,17 +61,30 @@ export class PlayerFieldSingleComponent implements OnInit {
       this.isPPBetMinusEnabled = false;
       this.slotInformation.live = false;
     }
+
+    if(!this.isPPBetPlusEnabled){
+      this.isPPBetPlusEnabled = null;
+    }
+
+    if(!this.isRegBetPlusEnabled){
+      this.isRegBetPlusEnabled = null;
+    }
   }
 
   addPerfectPairBet(value){
     //console.log("Adding Perfect Pair Bet at seat " + this.slotInformation.seatNumber);
 
-    if(this.slotInformation.perfectBet == 0){ // && Player had enough money @TODO
+    if(this.slotInformation.perfectBet == 0){
       this.isPPBetMinusEnabled = null;
       this.slotInformation.live = true;
     }
     
     this.slotInformation.perfectBet += value;
+
+    if(this.player.money <= 100){
+      this.isPPBetPlusEnabled = false;
+      this.isRegBetPlusEnabled = false;
+    }
   }
 
   subtractRegularBet(value){
@@ -83,17 +98,30 @@ export class PlayerFieldSingleComponent implements OnInit {
       this.isRegBetMinusEnabled = false;
       this.slotInformation.live = false;
     }
+
+    if(!this.isRegBetPlusEnabled){
+      this.isRegBetPlusEnabled = null;
+    }
+
+    if(!this.isPPBetPlusEnabled){
+      this.isPPBetPlusEnabled = null;
+    }
   }
 
   addRegularBet(value){
     //console.log("Adding Regular Bet at seat " + this.slotInformation.seatNumber);
 
-    if(this.slotInformation.regularBet == 0){ // && Player had enough money @TODO
+    if(this.slotInformation.regularBet == 0){
       this.isRegBetMinusEnabled = null;
       this.slotInformation.live = true;
     }
     
     this.slotInformation.regularBet += value;
+
+    if(this.player.money <= 100){
+      this.isRegBetPlusEnabled = false;
+      this.isPPBetPlusEnabled = false;
+    }
   }
 
   stop(){
