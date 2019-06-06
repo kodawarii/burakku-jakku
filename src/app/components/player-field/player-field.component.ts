@@ -31,9 +31,10 @@ export class PlayerFieldComponent implements OnInit {
       message: "Make at least 1 Bet!",
       atLeastOnePlayerMadeBet: true,
       initialDeal: false,
-      finalDeal: false,
       dealersCards: [{value:" ", suite: " "}],
       total: 0,
+      totalLive: 0,
+      totalStopped: 0,
     };
 
     this.player = {
@@ -139,9 +140,20 @@ export class PlayerFieldComponent implements OnInit {
     }
   }
 
-  dealCards2(event:any){
+  dealCards2(event:any):number{
     //console.log("Dealing Cards in main player field component");
 
+    /**
+     *  ##A: If there are  no more players to deal, deal the dealer cards 
+     * */
+    if(this.dealer.totalLive == this.dealer.totalStopped && this.dealer.totalStopped != 0){
+      this.dealDealer();
+      return 0;
+    }
+
+    /** 
+     * ##B: If there are still players to deal, deal them
+     */
     /* #1 First Update Dealers details */
     this.dealer.initialDeal = true;
     this.dealer.atLeastOnePlayerMadeBet = true; // Disable the Deal Button after first deal
@@ -164,6 +176,11 @@ export class PlayerFieldComponent implements OnInit {
         /* #5 Enable STOP and HITME Buttons for that slot */
         this.playerFieldSingleComponents[i].isHitEnabled = null;
         this.playerFieldSingleComponents[i].isStopEnabled = null;
+
+        /**
+         * Increment the total count of players we have dealt. So that by the end of the for loop, we know how many players are live
+         */
+        this.dealer.totalLive++;
       }
     }
 
@@ -174,6 +191,25 @@ export class PlayerFieldComponent implements OnInit {
     }    
 
     /* ... End of dealCards2() */
+    return 0;
+  }
+
+  dealDealer(){
+    
+  }
+
+  incrementStoppedPlayersCount(){
+    this.dealer.totalStopped++;
+    
+    /**
+     *  Activate the Deal Button again once all seats are either BUST or Stopped 
+     * @TODO need to do something about when ALL BUST ie gameover
+     * 
+     * */ 
+    if(this.dealer.totalLive == this.dealer.totalStopped && this.dealer.totalStopped != 0){
+      this.dealer.atLeastOnePlayerMadeBet = null;
+      this.dealer.message = "Ready to get scammed?";
+    }
   }
 
   calculateTotalsOfPlayer(seatAndCardPair){

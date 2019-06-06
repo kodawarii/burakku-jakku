@@ -9,5 +9,6 @@ export class Dealer{
     message:string;
     atLeastOnePlayerMadeBet: boolean;
     initialDeal: boolean;
-    finalDeal: boolean;
+    totalLive:number;
+    totalStopped:number;
 }

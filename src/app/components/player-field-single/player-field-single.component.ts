@@ -20,8 +20,10 @@ export class PlayerFieldSingleComponent implements OnInit {
   @Input() slotInformation: PlayerFieldSingleModel;
   @Input() dealer: Dealer;
   @Input() deckOfCards: Card[];
+
   @Output() updatePlayerInfo: EventEmitter<number> = new EventEmitter();
   @Output() calculateTotals: EventEmitter<object> = new EventEmitter(); // *Cannot send multiple parameters with EventEmitter() so use objects instead
+  @Output() incrementStoppedPlayersCount: EventEmitter<number> = new EventEmitter();
 
   // Button State Props
   isPPBetMinusEnabled:boolean;
@@ -62,7 +64,7 @@ export class PlayerFieldSingleComponent implements OnInit {
   addPerfectPairBet(value){
     //console.log("Adding Perfect Pair Bet at seat " + this.slotInformation.seatNumber);
 
-    if(this.slotInformation.perfectBet == 0){ // && Player had enough money
+    if(this.slotInformation.perfectBet == 0){ // && Player had enough money @TODO
       this.isPPBetMinusEnabled = null;
       this.slotInformation.live = true;
     }
@@ -86,7 +88,7 @@ export class PlayerFieldSingleComponent implements OnInit {
   addRegularBet(value){
     //console.log("Adding Regular Bet at seat " + this.slotInformation.seatNumber);
 
-    if(this.slotInformation.regularBet == 0){ // && Player had enough money
+    if(this.slotInformation.regularBet == 0){ // && Player had enough money @TODO
       this.isRegBetMinusEnabled = null;
       this.slotInformation.live = true;
     }
@@ -98,6 +100,7 @@ export class PlayerFieldSingleComponent implements OnInit {
     this.bustString = "Ready";
     this.slotInformation.state = true;
     this.disableStopAndHitBtns();
+    this.incrementStoppedPlayersCount.emit();
   }
 
   hit(){
@@ -111,6 +114,7 @@ export class PlayerFieldSingleComponent implements OnInit {
       this.bustString = "BUST";
 
       this.disableStopAndHitBtns();
+      this.incrementStoppedPlayersCount.emit();
     }
   }
 
