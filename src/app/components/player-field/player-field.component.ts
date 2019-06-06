@@ -39,7 +39,7 @@ export class PlayerFieldComponent implements OnInit {
 
     this.player = {
       prevRoundMoney: 10000, // @ToDo: After every round, keep track of this
-      money: 200,
+      money: 500,
     };
 
     this.playerFieldSingleComponents = [
