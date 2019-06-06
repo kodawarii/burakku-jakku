@@ -2,6 +2,7 @@ import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { PlayerFieldSingleModel } from 'src/app/models/PlayerFieldSingleModel';
 
 import { Card } from 'src/app/models/Card';
+import { Dealer } from 'src/app/models/Dealer';
 
 @Component({
   selector: 'app-player-field-single',
@@ -17,23 +18,22 @@ export class PlayerFieldSingleComponent implements OnInit {
 
    // Props
   @Input() slotInformation: PlayerFieldSingleModel;
+  @Input() dealer: Dealer;
+  @Input() deckOfCards: Card[];
   @Output() updatePlayerInfo: EventEmitter<number> = new EventEmitter();
+  @Output() calculateTotals: EventEmitter<object> = new EventEmitter(); // *Cannot send multiple parameters with EventEmitter() so use objects instead
 
   // Button State Props
-  isStopEnabled:boolean;
-  isHitEnabled:boolean;
-  
   isPPBetMinusEnabled:boolean;
   isPPBetPlusEnabled:boolean;
   isRegBetMinusEnabled:boolean;
   isRegBetPlusEnabled:boolean;
 
+  bustString:string;
+
   constructor() { }
 
   ngOnInit() {
-    this.isStopEnabled = false;
-    this.isHitEnabled = false;
-
     this.isPPBetMinusEnabled = false;
     this.isRegBetMinusEnabled = false;
   }
@@ -95,17 +95,28 @@ export class PlayerFieldSingleComponent implements OnInit {
   }
 
   stop(){
-    //console.log("Stopping Card Deals at seat " + this.slotInformation.seatNumber);
-    
+    this.bustString = "Ready";
     this.slotInformation.state = true;
-    //console.log("State of Seat: " + this.slotInformation.state);
+    this.disableStopAndHitBtns();
   }
 
   hit(){
-    //console.log("Hitting Cards at seat " + this.slotInformation.seatNumber);
-    
-    this.slotInformation.cards.push(new Card());
-    //console.log("Cards: " + this.slotInformation.cards);
+    let randomNo = Math.floor(Math.random() * this.deckOfCards.length);
+    let someCard:Card = this.deckOfCards[randomNo];
+
+    this.slotInformation.cards.push(someCard);
+    this.calculateTotals.emit({seatNumber: this.slotInformation.seatNumber, aCard: someCard}); // *Cannot send multiple parameters with EventEmitter() so use objects instead
+
+    if(this.slotInformation.bust){
+      this.bustString = "BUST";
+
+      this.disableStopAndHitBtns();
+    }
+  }
+
+  disableStopAndHitBtns(){
+    this.slotInformation.isHitEnabled = false;
+    this.slotInformation.isStopEnabled = false;
   }
 
   /**

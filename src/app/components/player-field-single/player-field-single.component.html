@@ -17,10 +17,13 @@
   <div>
     <p> {{slotInformation.total}} </p>
   </div>
+  <div>
+      <p> {{bustString}} </p>
+  </div>
   </div>
   <div>
-    <button (click)="stop()" disabled="{{isStopEnabled}}"> Stop </button>
-    <button (click)="hit()" disabled="{{isHitEnabled}}"> HIT ME </button>
+    <button (click)="stop()" disabled="{{slotInformation.isStopEnabled}}"> Stop </button>
+    <button (click)="hit()" disabled="{{slotInformation.isHitEnabled}}"> HIT ME </button>
   </div>
   <div>
     Seat {{slotInformation.seatNumber}}

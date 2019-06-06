@@ -14,7 +14,7 @@ export class PlayerFieldComponent implements OnInit {
 
   // OVERALL Player-Field Props - Has All Data:
   // Player Info and Player Fields:
-  private cards:Card[];
+  private deckOfCards:Card[];
   private playerFieldSingleComponents:PlayerFieldSingleModel[];
   private player:Player;
 
@@ -50,6 +50,9 @@ export class PlayerFieldComponent implements OnInit {
         seatNumber: 1,
         live: false,
         state: false,
+        bust: false,
+        isHitEnabled: false,
+        isStopEnabled: false,
       },
       {
         perfectBet: 0,
@@ -59,6 +62,9 @@ export class PlayerFieldComponent implements OnInit {
         seatNumber: 2,
         live: false,
         state: false,
+        bust: false,
+        isHitEnabled: false,
+        isStopEnabled: false,
       },
       {
         perfectBet: 0,
@@ -68,6 +74,9 @@ export class PlayerFieldComponent implements OnInit {
         seatNumber: 3,
         live: false,
         state: false,
+        bust: false,
+        isHitEnabled: false,
+        isStopEnabled: false,
       },
       {
         perfectBet: 0,
@@ -77,6 +86,9 @@ export class PlayerFieldComponent implements OnInit {
         seatNumber: 4,
         live: false,
         state: false,
+        bust: false,
+        isHitEnabled: false,
+        isStopEnabled: false,
       },
       {
         perfectBet: 0,
@@ -86,6 +98,9 @@ export class PlayerFieldComponent implements OnInit {
         seatNumber: 5,
         live: false,
         state: false,
+        bust: false,
+        isHitEnabled: false,
+        isStopEnabled: false,
       },
       {
         perfectBet: 0,
@@ -95,6 +110,9 @@ export class PlayerFieldComponent implements OnInit {
         seatNumber: 6,
         live: false,
         state: false,
+        bust: false,
+        isHitEnabled: false,
+        isStopEnabled: false,
       }
     ];
   }
@@ -114,7 +132,7 @@ export class PlayerFieldComponent implements OnInit {
       this.dealer.message = "Deal!";
     }
 
-    /* Catch final dealer check */
+    /* Catch final dealer check UPDATE: What does this do again??? */
     if(this.dealer.initialDeal){
       this.dealer.atLeastOnePlayerMadeBet = true;
       this.dealer.message = "No More Bets! DAFAQ BET BUTTONS SHOULD BE DEAD NOW";
@@ -124,38 +142,50 @@ export class PlayerFieldComponent implements OnInit {
   dealCards2(event:any){
     //console.log("Dealing Cards in main player field component");
 
-    /* First Update Dealers details */
+    /* #1 First Update Dealers details */
     this.dealer.initialDeal = true;
     this.dealer.atLeastOnePlayerMadeBet = true; // Disable the Deal Button after first deal
     this.dealer.message = "Good Luck!";
 
-    /* Deal cards to Dealer */
-    let randomNo:number = Math.floor(Math.random() * this.cards.length);
-    this.dealer.dealersCards.push(this.cards[randomNo]);
+    /* #2 Deal cards to Dealer */
+    let randomNo:number = Math.floor(Math.random() * this.deckOfCards.length);
+    this.dealer.dealersCards.push(this.deckOfCards[randomNo]);
     
-    /* Deal cards to Live Slots */
+    /* #3 Deal cards to Live Slots */
     for(let i = 0; i < this.playerFieldSingleComponents.length; i++){
       if(this.playerFieldSingleComponents[i].live){
-        randomNo = Math.floor(Math.random() * this.cards.length);
-        let someCard:Card = this.cards[randomNo];
+        randomNo = Math.floor(Math.random() * this.deckOfCards.length);
+        let someCard:Card = this.deckOfCards[randomNo];
         this.playerFieldSingleComponents[i].cards.push(someCard);
 
-        /* Calculate Totals of that Slot after dealing to each slot */
-        this.playerFieldSingleComponents[i].total += this.getNumberValueOf(someCard.value);
+        /* #4 Calculate Totals of that Slot after dealing to each slot */
+        this.calculateTotalsOfPlayer({seatNumber: i + 1, aCard:someCard});
+
+        /* #5 Enable STOP and HITME Buttons for that slot */
+        this.playerFieldSingleComponents[i].isHitEnabled = null;
+        this.playerFieldSingleComponents[i].isStopEnabled = null;
       }
     }
 
-    /* Calculate Totals for Dealer */
+    /* #6 Calculate Totals for Dealer */
     for(let i=1; i < this.dealer.dealersCards.length; i++){
       this.dealer.total += this.getNumberValueOf(this.dealer.dealersCards[i].value);
       //console.log(typeof this.getNumberValueOf(this.dealer.dealersCards[i].value));
-    }
+    }    
 
-    //console.log(this.playerFieldSingleComponents);
+    /* ... End of dealCards2() */
+  }
+
+  calculateTotalsOfPlayer(seatAndCardPair){
+    this.playerFieldSingleComponents[seatAndCardPair.seatNumber - 1].total += this.getNumberValueOf(seatAndCardPair.aCard.value);
+
+    if(this.playerFieldSingleComponents[seatAndCardPair.seatNumber - 1].total > 21){
+      this.playerFieldSingleComponents[seatAndCardPair.seatNumber - 1].bust = true;
+    }
   }
 
   initializeCardDeck(){
-    this.cards = [
+    this.deckOfCards = [
       {value: "A", suite: "s"},{value: "A", suite: "h"},{value: "A",suite: "d"},{value: "A",suite: "c"},
       {value: "2", suite: "s"},{value: "2", suite: "h"},{value: "2",suite: "d"},{value: "2",suite: "c"},
       {value: "3", suite: "s"},{value: "3", suite: "h"},{value: "3",suite: "d"},{value: "3",suite: "c"},

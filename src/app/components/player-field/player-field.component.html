@@ -18,6 +18,9 @@
         *ngFor = "let singleItem of playerFieldSingleComponents"
         [slotInformation] = "singleItem"
         (updatePlayerInfo) = "updatePlayer($event)"
+        (calculateTotals) = "calculateTotalsOfPlayer($event)"
+        [dealer] = "dealer"
+        [deckOfCards] = "deckOfCards"
         >
         </app-player-field-single>
       </tr>
