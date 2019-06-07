@@ -47,7 +47,8 @@ export class PlayerFieldSingleComponent implements OnInit {
    * Regular Bet -/+
    * Stop and Hit
    * 
-   * @TODO CRITICAL BUG: Butons dont get disabled when there are multiple slots with bets. you have to make another bet in order to activate the deactivation of the button
+   * @TODO CRITICAL BUG #1: Butons dont get disabled when there are multiple slots with bets. you have to make another bet in order to activate the deactivation of the button
+   * @TODO CRITICAL BUG #2: Deal button is clickable after making a bet and getting rid of it
    *  
    * */ 
   subtractPerfectPairBet(value){

@@ -54,7 +54,6 @@ export class PlayerFieldComponent implements OnInit {
         total: 0,
         seatNumber: 1,
         live: false,
-        state: false,
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
@@ -67,7 +66,6 @@ export class PlayerFieldComponent implements OnInit {
         total: 0,
         seatNumber: 2,
         live: false,
-        state: false,
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
@@ -80,7 +78,6 @@ export class PlayerFieldComponent implements OnInit {
         total: 0,
         seatNumber: 3,
         live: false,
-        state: false,
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
@@ -93,7 +90,6 @@ export class PlayerFieldComponent implements OnInit {
         total: 0,
         seatNumber: 4,
         live: false,
-        state: false,
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
@@ -106,7 +102,6 @@ export class PlayerFieldComponent implements OnInit {
         total: 0,
         seatNumber: 5,
         live: false,
-        state: false,
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
@@ -119,7 +114,6 @@ export class PlayerFieldComponent implements OnInit {
         total: 0,
         seatNumber: 6,
         live: false,
-        state: false,
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
@@ -261,7 +255,6 @@ export class PlayerFieldComponent implements OnInit {
           else{
             this.processLose(i);
           }
-        
       }
       
       else if(dealerGot17ish){
@@ -275,6 +268,42 @@ export class PlayerFieldComponent implements OnInit {
           this.processLose(i);
         }
       }
+    }
+
+    /** At the end of processing the winnings, restart the whole game but keep the player profile intact */
+    /** @TODO make another button to reset game cus winnings messages arent shown before game resets */
+    this.resetGame();
+  }
+
+  resetGame(){
+    /** @TODO Add "Shuffling" Bullshit Splash/Popup screen */
+
+    /** Resetting HUD Thingies */
+    this.dealer.atLeastOnePlayerMadeBet = false;
+    this.dealer.message = "Make at Least one Bet!";
+
+    /** Resetting Dealer */
+    this.dealer.atLeastOnePlayerMadeBet = false;
+    this.dealer.bustString = " ";
+    this.dealer.dealersCards = [{value:" ", suite: " "}];
+    this.dealer.initialDeal = false;
+    this.dealer.total = 0;
+    this.dealer.totalLive = 0;
+    this.dealer.totalStopped = 0;
+
+    /** Resetting Slots */
+    let i:number;
+    let length = this.playerFieldSingleComponents.length;
+    for(i = 0; i < length; i++){
+      this.playerFieldSingleComponents[i].perfectBet = 0;
+      this.playerFieldSingleComponents[i].regularBet = 0;
+      this.playerFieldSingleComponents[i].cards = [{value:" ", suite: " "}];
+      this.playerFieldSingleComponents[i].total = 0;
+      this.playerFieldSingleComponents[i].live = false;
+      this.playerFieldSingleComponents[i].bust = false;
+      this.playerFieldSingleComponents[i].isHitEnabled = false;
+      this.playerFieldSingleComponents[i].isStopEnabled = false;
+      this.playerFieldSingleComponents[i].bustString = " ";
     }
   }
 
