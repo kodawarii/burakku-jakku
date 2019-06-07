@@ -7,6 +7,7 @@ export class Dealer{
     dealersCards: Card[];
     total:number;
     message:string;
+    bustString:string;
     atLeastOnePlayerMadeBet: boolean;
     initialDeal: boolean;
     totalLive:number;

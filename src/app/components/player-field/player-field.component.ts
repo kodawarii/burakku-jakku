@@ -29,6 +29,7 @@ export class PlayerFieldComponent implements OnInit {
 
     this.dealer = {
       message: "Make at least 1 Bet!",
+      bustString: " ",
       atLeastOnePlayerMadeBet: true,
       initialDeal: false,
       dealersCards: [{value:" ", suite: " "}],
@@ -235,6 +236,7 @@ export class PlayerFieldComponent implements OnInit {
     /**
      * @TODO : Add feature where if there are two same value cards, you can split them into two slots
      * @TODO : Check if regular bet is made earlier up -- e.g. if(noRegBetsMade)
+     * @TODO : Stop Immediatly when player total is 21
      *  */ 
 
      /**
@@ -248,34 +250,48 @@ export class PlayerFieldComponent implements OnInit {
         /** 
          * @TODO : Perfect Pair Winnings
          */
-        let winnings:number = this.playerFieldSingleComponents[i].regularBet * 2;
-        this.player.money += winnings;
-        this.playerFieldSingleComponents[i].bustString = "Congratulations, You win: " + winnings;
-        
-        /** @TODO add message inside dealer component saying dealer is bust */
+        this.processWin(i);
+        this.dealer.bustString = "DEALER BUST";
       }
       
       else if(dealerGot21){        
           if(this.playerFieldSingleComponents[i].total == 21){
-            this.playerFieldSingleComponents[i].bustString = "Even";
+            this.processEven(i);
           }
           else{
-            this.playerFieldSingleComponents[i].bustString = "You Lose";
+            this.processLose(i);
           }
         
       }
       
       else if(dealerGot17ish){
         if(21 - this.playerFieldSingleComponents[i].total < 21 - this.dealer.total){
-          let winnings:number = this.playerFieldSingleComponents[i].regularBet * 2;
-          this.player.money += winnings;
-          this.playerFieldSingleComponents[i].bustString = "Congratulations, You win: " + winnings;
+          this.processWin(i);
+        }
+        else if(21 - this.playerFieldSingleComponents[i].total == 21 - this.dealer.total){
+          this.processEven(i);
         }
         else{
-          this.playerFieldSingleComponents[i].bustString = "You Lose";
+          this.processLose(i);
         }
       }
     }
+  }
+
+  processWin(i:number){
+    let winnings:number = this.playerFieldSingleComponents[i].regularBet * 2;
+    this.player.money += winnings;
+    this.playerFieldSingleComponents[i].bustString = "Congratulations, You win: $" + winnings;
+  }
+
+  processEven(i:number){
+    let currentBet:number = this.playerFieldSingleComponents[i].regularBet;
+    this.player.money += currentBet;
+    this.playerFieldSingleComponents[i].bustString = "Even (You get $" + currentBet + " back)";
+  }
+
+  processLose(i:number){
+    this.playerFieldSingleComponents[i].bustString = "You Lose";
   }
 
   incrementStoppedPlayersCount(){
