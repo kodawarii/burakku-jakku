@@ -127,7 +127,6 @@ export class PlayerFieldSingleComponent implements OnInit {
 
   stop(){
     this.slotInformation.bustString = "Ready";
-    this.slotInformation.state = true;
     this.disableStopAndHitBtns();
     this.incrementStoppedPlayersCount.emit();
   }

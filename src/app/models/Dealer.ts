@@ -9,6 +9,7 @@ export class Dealer{
     message:string;
     bustString:string;
     atLeastOnePlayerMadeBet: boolean;
+    shallWeStartNew: boolean
     initialDeal: boolean;
     totalLive:number;
     totalStopped:number;

@@ -10,6 +10,7 @@ export class GameStatusBarComponent implements OnInit {
 
   @Input() dealerInfo:Dealer;
   @Output() dealCards:EventEmitter<any> = new EventEmitter();
+  @Output() startNewGame:EventEmitter<any> = new EventEmitter();
 
   isDealEnabled:boolean;
 
@@ -19,8 +20,10 @@ export class GameStatusBarComponent implements OnInit {
   }
 
   deal(){
-    console.log("Dealing");
     this.dealCards.emit();
   }
 
+  resetGame(){
+    this.startNewGame.emit();
+  }
 }

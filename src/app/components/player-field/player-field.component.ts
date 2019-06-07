@@ -36,6 +36,7 @@ export class PlayerFieldComponent implements OnInit {
       total: 0,
       totalLive: 0,
       totalStopped: 0,
+      shallWeStartNew: false
     };
 
     /**
@@ -270,12 +271,20 @@ export class PlayerFieldComponent implements OnInit {
       }
     }
 
+    /** Disable Deal Button after dealing the dealer */
+    this.dealer.atLeastOnePlayerMadeBet = false;
+
+    /** Activate the Start New Game Button */
+    this.dealer.shallWeStartNew = null;
+
     /** At the end of processing the winnings, restart the whole game but keep the player profile intact */
     /** @TODO make another button to reset game cus winnings messages arent shown before game resets */
-    this.resetGame();
+    // this.resetGame();
   }
 
-  resetGame(){
+  resetGame(event:any){
+    console.log("Starting New Game");
+    
     /** @TODO Add "Shuffling" Bullshit Splash/Popup screen */
 
     /** Resetting HUD Thingies */
@@ -290,6 +299,7 @@ export class PlayerFieldComponent implements OnInit {
     this.dealer.total = 0;
     this.dealer.totalLive = 0;
     this.dealer.totalStopped = 0;
+    this.dealer.shallWeStartNew = false;
 
     /** Resetting Slots */
     let i:number;
