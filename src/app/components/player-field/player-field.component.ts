@@ -337,6 +337,10 @@ export class PlayerFieldComponent implements OnInit {
       this.playerFieldSingleComponents[i].isHitEnabled = false;
       this.playerFieldSingleComponents[i].isStopEnabled = false;
       this.playerFieldSingleComponents[i].bustString = " ";
+      this.playerFieldSingleComponents[i].isPPBetMinusEnabled = false,
+      this.playerFieldSingleComponents[i].isPPBetPlusEnabled = null,
+      this.playerFieldSingleComponents[i].isRegBetMinusEnabled = false,
+      this.playerFieldSingleComponents[i].isRegBetPlusEnabled = null
     }
   }
 
