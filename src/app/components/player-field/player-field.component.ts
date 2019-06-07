@@ -230,41 +230,44 @@ export class PlayerFieldComponent implements OnInit {
       * Process Winnings for each slot
       */
     let i:number;
-    let length = this.playerFieldSingleComponents.length; // Learnt today that this is more efficient in JavaScript rather than putting it inside the for-loop
+    let length = this.playerFieldSingleComponents.length; // Learnt that this is more efficient in JavaScript rather than putting it inside the for-loop
     for(i = 0; i < length; i++){
+
+      if(this.playerFieldSingleComponents[i].bust){
+        continue;
+      }
+      if(!this.playerFieldSingleComponents[i].live){
+        continue;
+      }
       
-      if(!this.playerFieldSingleComponents[i].bust){
-        if(dealerGotBusted){
-          /** 
-           * @TODO : Perfect Pair Winnings
-           */
-          this.processWin(i);
-          this.dealer.bustString = "DEALER BUST";
-        }
-        
-        else if(dealerGot21){        
-            if(this.playerFieldSingleComponents[i].total == 21){
-              this.processEven(i);
-            }
-            else{
-              this.processLose(i);
-            }
-        }
-        
-        else if(dealerGot17ish){
-          if(21 - this.playerFieldSingleComponents[i].total < 21 - this.dealer.total){
-            this.processWin(i);
-          }
-          else if(21 - this.playerFieldSingleComponents[i].total == 21 - this.dealer.total){
+      
+      if(dealerGotBusted){
+        /** 
+         * @TODO : Perfect Pair Winnings
+         */
+        this.processWin(i);
+        this.dealer.bustString = "DEALER BUST";
+      }
+      
+      else if(dealerGot21){        
+          if(this.playerFieldSingleComponents[i].total == 21){
             this.processEven(i);
           }
           else{
             this.processLose(i);
           }
-        }
       }
-      else{
-        this.processLose(i);
+        
+      else if(dealerGot17ish){
+        if(21 - this.playerFieldSingleComponents[i].total < 21 - this.dealer.total){
+          this.processWin(i);
+        }
+        else if(21 - this.playerFieldSingleComponents[i].total == 21 - this.dealer.total){
+          this.processEven(i);
+        }
+        else{
+          this.processLose(i);
+        }
       }
     }
 
