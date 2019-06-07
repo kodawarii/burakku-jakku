@@ -47,6 +47,8 @@ export class PlayerFieldSingleComponent implements OnInit {
    * -- cont'd: similarily, we may need a re-activate global buttons function
    * 
    * @TODO CRITICAL BUG #2: Deal button is clickable after making a bet and getting rid of the bet again (e.g. bet 100 then take away 100)
+   * 
+   * @FEATURE Make slider for betting sizes
    *  
    * */ 
   subtractPerfectPairBet(value){
@@ -131,6 +133,23 @@ export class PlayerFieldSingleComponent implements OnInit {
 
     this.slotInformation.cards.push(someCard);
     this.calculateTotals.emit({seatNumber: this.slotInformation.seatNumber, aCard: someCard}); // *Cannot send multiple parameters with EventEmitter() so use objects instead
+
+    /** Checking for PP */
+    if(this.slotInformation.cards.length == 3){
+      let card1:Card = this.slotInformation.cards[1];
+      let card2:Card = this.slotInformation.cards[2];
+      if(card1.value == card2.value && card1.suite == card2.suite){
+        this.slotInformation.bustString = "Perfect Pair!";
+        this.slotInformation.gotPP = true;
+
+        // Process Perfect Pair Winnings in Player Field Component
+
+        /**
+         * @TODO : Add feature where if there are two same value cards, you can split them into two slots
+         * 
+         */
+      }
+    }
 
     if(this.slotInformation.bust){
       this.slotInformation.bustString = "BUST";

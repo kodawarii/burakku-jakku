@@ -6,6 +6,7 @@ export class PlayerFieldSingleModel{
 
     perfectBet:number;
     regularBet:number;
+    gotPP: boolean;
 
     cards: Card[];
     total:number;

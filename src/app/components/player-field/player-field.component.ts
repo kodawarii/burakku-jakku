@@ -51,6 +51,7 @@ export class PlayerFieldComponent implements OnInit {
       {
         perfectBet: 0,
         regularBet: 0,
+        gotPP: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 1,
@@ -67,6 +68,7 @@ export class PlayerFieldComponent implements OnInit {
       {
         perfectBet: 0,
         regularBet: 0,
+        gotPP: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 2,
@@ -83,6 +85,7 @@ export class PlayerFieldComponent implements OnInit {
       {
         perfectBet: 0,
         regularBet: 0,
+        gotPP: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 3,
@@ -99,6 +102,7 @@ export class PlayerFieldComponent implements OnInit {
       {
         perfectBet: 0,
         regularBet: 0,
+        gotPP: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 4,
@@ -115,6 +119,7 @@ export class PlayerFieldComponent implements OnInit {
       {
         perfectBet: 0,
         regularBet: 0,
+        gotPP: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 5,
@@ -131,6 +136,7 @@ export class PlayerFieldComponent implements OnInit {
       {
         perfectBet: 0,
         regularBet: 0,
+        gotPP: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 6,
@@ -245,9 +251,7 @@ export class PlayerFieldComponent implements OnInit {
     }
 
     /**
-     * @TODO : Add feature where if there are two same value cards, you can split them into two slots
-     * @TODO : Check if regular bet is made earlier up -- e.g. if(noRegBetsMade)
-     * @TODO : Perfect Pair Winnings
+     * @TODO : Check if regular bet is made earlier up -- e.g. if(noRegBetsMade){then finnishGame}
      *  */ 
 
      /**
@@ -289,6 +293,11 @@ export class PlayerFieldComponent implements OnInit {
         else{
           this.processLose(i);
         }
+      }
+      
+      /** Process Perfect Bet Winnings */
+      if(this.playerFieldSingleComponents[i].gotPP){
+        this.processWin(i, true)
       }
     }
 
@@ -341,10 +350,19 @@ export class PlayerFieldComponent implements OnInit {
     }
   }
 
-  processWin(i:number){
-    let winnings:number = this.playerFieldSingleComponents[i].regularBet * 2;
+  processWin(i:number, pp:boolean = false){
+    let currentRegBet:number = this.playerFieldSingleComponents[i].regularBet;
+    let currentPPBet:number = this.playerFieldSingleComponents[i].perfectBet;
+
+    /** Process PP winnings first */
+    if(pp){
+      this.player.money += currentPPBet * 33;
+      this.playerFieldSingleComponents[i].bustString = "Perfect Pair Winnings +$" + currentPPBet*33;
+    }
+
+    let winnings:number = currentRegBet * 2;
     this.player.money += winnings;
-    this.playerFieldSingleComponents[i].bustString = "Congratulations, You win: $" + winnings;
+    this.playerFieldSingleComponents[i].bustString += "// Congratulations, You win: $" + winnings + "";
   }
 
   processEven(i:number){
@@ -429,6 +447,19 @@ export class PlayerFieldComponent implements OnInit {
       {value: "J", suite: "s"},{value: "J", suite: "h"},{value: "J",suite: "d"},{value: "J",suite: "c"},
       {value: "Q", suite: "s"},{value: "Q", suite: "h"},{value: "Q",suite: "d"},{value: "Q",suite: "c"},
       {value: "K", suite: "s"},{value: "K", suite: "h"},{value: "K",suite: "d"},{value: "K",suite: "c"},
+
+
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
+
     ]
   }
 
