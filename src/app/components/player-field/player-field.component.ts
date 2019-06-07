@@ -57,6 +57,7 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
+        bustString: " "
       },
       {
         perfectBet: 0,
@@ -69,6 +70,7 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
+        bustString: " "
       },
       {
         perfectBet: 0,
@@ -81,6 +83,7 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
+        bustString: " "
       },
       {
         perfectBet: 0,
@@ -93,6 +96,7 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
+        bustString: " "
       },
       {
         perfectBet: 0,
@@ -105,6 +109,7 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
+        bustString: " "
       },
       {
         perfectBet: 0,
@@ -117,6 +122,7 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
+        bustString: " "
       }
     ];
   }
@@ -197,24 +203,24 @@ export class PlayerFieldComponent implements OnInit {
   async dealDealer(){
     // Keep dealing until 17 reached or Busted or got 21
 
-    let gotBusted:boolean = false;
-    let got21:boolean = false;
-    let got17ish:boolean = false;
+    let dealerGotBusted:boolean = false;
+    let dealerGot21:boolean = false;
+    let dealerGot17ish:boolean = false;
 
-    while(!gotBusted && !got21 && !got17ish){
+    while(!dealerGotBusted && !dealerGot21 && !dealerGot17ish){
       let randomNo:number = Math.floor(Math.random() * this.deckOfCards.length);
       let randomCard:Card = this.deckOfCards[randomNo];
       this.dealer.dealersCards.push(randomCard);
       this.dealer.total += this.getNumberValueOf(randomCard.value);
 
       if(this.dealer.total > 21){
-        gotBusted = true;
+        dealerGotBusted = true;
       }
       else if(this.dealer.total == 21){
-        got21 = true;
+        dealerGot21 = true;
       }
       else if(this.dealer.total >= 17 && this.dealer.total <= 20){
-        got17ish = true;
+        dealerGot17ish = true;
       }
 
       // await sleep(1000);
@@ -225,9 +231,52 @@ export class PlayerFieldComponent implements OnInit {
       return new Promise(r => setTimeout(r, ms));
     }
     */
-  }
 
-  
+    /**
+     * @TODO : Add feature where if there are two same value cards, you can split them into two slots
+     * @TODO : Check if regular bet is made earlier up -- e.g. if(noRegBetsMade)
+     *  */ 
+
+     /**
+      * Process Winnings for each slot
+      */
+    let i:number;
+    let length = this.playerFieldSingleComponents.length; // Learnt today that this is more efficient in JavaScript rather than putting it inside the for-loop
+    for(i = 0; i < length; i++){
+      
+      if(dealerGotBusted && !this.playerFieldSingleComponents[i].bust){
+        /** 
+         * @TODO : Perfect Pair Winnings
+         */
+        let winnings:number = this.playerFieldSingleComponents[i].regularBet * 2;
+        this.player.money += winnings;
+        this.playerFieldSingleComponents[i].bustString = "Congratulations, You win: " + winnings;
+        
+        /** @TODO add message inside dealer component saying dealer is bust */
+      }
+      
+      else if(dealerGot21){        
+          if(this.playerFieldSingleComponents[i].total == 21){
+            this.playerFieldSingleComponents[i].bustString = "Even";
+          }
+          else{
+            this.playerFieldSingleComponents[i].bustString = "You Lose";
+          }
+        
+      }
+      
+      else if(dealerGot17ish){
+        if(21 - this.playerFieldSingleComponents[i].total < 21 - this.dealer.total){
+          let winnings:number = this.playerFieldSingleComponents[i].regularBet * 2;
+          this.player.money += winnings;
+          this.playerFieldSingleComponents[i].bustString = "Congratulations, You win: " + winnings;
+        }
+        else{
+          this.playerFieldSingleComponents[i].bustString = "You Lose";
+        }
+      }
+    }
+  }
 
   incrementStoppedPlayersCount(){
     this.dealer.totalStopped++;

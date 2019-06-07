@@ -33,8 +33,6 @@ export class PlayerFieldSingleComponent implements OnInit {
   isRegBetMinusEnabled:boolean;
   isRegBetPlusEnabled:boolean;
 
-  bustString:string;
-
   constructor() { }
 
   ngOnInit() {
@@ -127,7 +125,7 @@ export class PlayerFieldSingleComponent implements OnInit {
   }
 
   stop(){
-    this.bustString = "Ready";
+    this.slotInformation.bustString = "Ready";
     this.slotInformation.state = true;
     this.disableStopAndHitBtns();
     this.incrementStoppedPlayersCount.emit();
@@ -141,7 +139,7 @@ export class PlayerFieldSingleComponent implements OnInit {
     this.calculateTotals.emit({seatNumber: this.slotInformation.seatNumber, aCard: someCard}); // *Cannot send multiple parameters with EventEmitter() so use objects instead
 
     if(this.slotInformation.bust){
-      this.bustString = "BUST";
+      this.slotInformation.bustString = "BUST";
 
       this.disableStopAndHitBtns();
       this.incrementStoppedPlayersCount.emit();

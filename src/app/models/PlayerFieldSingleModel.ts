@@ -14,6 +14,7 @@ export class PlayerFieldSingleModel{
     live: boolean;
     state: boolean; // If Stopped (as in stop hitting me, Im good with my cards) then set to True
     bust: boolean;
+    bustString: string;
 
     isStopEnabled: boolean;
     isHitEnabled: boolean;
