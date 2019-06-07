@@ -138,6 +138,12 @@ export class PlayerFieldSingleComponent implements OnInit {
       this.disableStopAndHitBtns();
       this.incrementStoppedPlayersCount.emit();
     }
+
+    if(this.slotInformation.total == 21){
+      this.slotInformation.bustString = "~TWENTY ONE~";
+      this.disableStopAndHitBtns();
+      this.incrementStoppedPlayersCount.emit();
+    }
   }
 
   disableStopAndHitBtns(){

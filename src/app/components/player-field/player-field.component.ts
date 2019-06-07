@@ -192,7 +192,7 @@ export class PlayerFieldComponent implements OnInit {
     let randomNo:number = Math.floor(Math.random() * this.deckOfCards.length);
     this.dealer.dealersCards.push(this.deckOfCards[randomNo]);
     
-    /* #3 Deal cards to Live Slots */
+    /* #3 Deal cards to Players Live Slots */
     for(let i = 0; i < this.playerFieldSingleComponents.length; i++){
       if(this.playerFieldSingleComponents[i].live){
         randomNo = Math.floor(Math.random() * this.deckOfCards.length);
@@ -247,7 +247,7 @@ export class PlayerFieldComponent implements OnInit {
     /**
      * @TODO : Add feature where if there are two same value cards, you can split them into two slots
      * @TODO : Check if regular bet is made earlier up -- e.g. if(noRegBetsMade)
-     * @TODO : Stop Immediatly when player total is 21
+     * @TODO : Perfect Pair Winnings
      *  */ 
 
      /**
@@ -266,9 +266,6 @@ export class PlayerFieldComponent implements OnInit {
       
       
       if(dealerGotBusted){
-        /** 
-         * @TODO : Perfect Pair Winnings
-         */
         this.processWin(i);
         this.dealer.bustString = "DEALER BUST";
       }
