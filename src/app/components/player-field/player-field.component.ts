@@ -196,7 +196,7 @@ export class PlayerFieldComponent implements OnInit {
     return 0;
   }
 
-  async dealDealer(){
+  dealDealer(){
     // Keep dealing until 17 reached or Busted or got 21
 
     let dealerGotBusted:boolean = false;
@@ -218,15 +218,7 @@ export class PlayerFieldComponent implements OnInit {
       else if(this.dealer.total >= 17 && this.dealer.total <= 20){
         dealerGot17ish = true;
       }
-
-      // await sleep(1000);
     }
-
-    /*
-    function sleep(ms = 0) {
-      return new Promise(r => setTimeout(r, ms));
-    }
-    */
 
     /**
      * @TODO : Add feature where if there are two same value cards, you can split them into two slots
@@ -241,33 +233,38 @@ export class PlayerFieldComponent implements OnInit {
     let length = this.playerFieldSingleComponents.length; // Learnt today that this is more efficient in JavaScript rather than putting it inside the for-loop
     for(i = 0; i < length; i++){
       
-      if(dealerGotBusted && !this.playerFieldSingleComponents[i].bust){
-        /** 
-         * @TODO : Perfect Pair Winnings
-         */
-        this.processWin(i);
-        this.dealer.bustString = "DEALER BUST";
-      }
-      
-      else if(dealerGot21){        
-          if(this.playerFieldSingleComponents[i].total == 21){
+      if(!this.playerFieldSingleComponents[i].bust){
+        if(dealerGotBusted){
+          /** 
+           * @TODO : Perfect Pair Winnings
+           */
+          this.processWin(i);
+          this.dealer.bustString = "DEALER BUST";
+        }
+        
+        else if(dealerGot21){        
+            if(this.playerFieldSingleComponents[i].total == 21){
+              this.processEven(i);
+            }
+            else{
+              this.processLose(i);
+            }
+        }
+        
+        else if(dealerGot17ish){
+          if(21 - this.playerFieldSingleComponents[i].total < 21 - this.dealer.total){
+            this.processWin(i);
+          }
+          else if(21 - this.playerFieldSingleComponents[i].total == 21 - this.dealer.total){
             this.processEven(i);
           }
           else{
             this.processLose(i);
           }
+        }
       }
-      
-      else if(dealerGot17ish){
-        if(21 - this.playerFieldSingleComponents[i].total < 21 - this.dealer.total){
-          this.processWin(i);
-        }
-        else if(21 - this.playerFieldSingleComponents[i].total == 21 - this.dealer.total){
-          this.processEven(i);
-        }
-        else{
-          this.processLose(i);
-        }
+      else{
+        this.processLose(i);
       }
     }
 
@@ -276,15 +273,14 @@ export class PlayerFieldComponent implements OnInit {
 
     /** Activate the Start New Game Button */
     this.dealer.shallWeStartNew = null;
-
-    /** At the end of processing the winnings, restart the whole game but keep the player profile intact */
-    /** @TODO make another button to reset game cus winnings messages arent shown before game resets */
-    // this.resetGame();
   }
 
+  /**
+   * resetGame() Called when Start New Game Button is clicked
+   */
   resetGame(event:any){
     console.log("Starting New Game");
-    
+
     /** @TODO Add "Shuffling" Bullshit Splash/Popup screen */
 
     /** Resetting HUD Thingies */
@@ -330,7 +326,7 @@ export class PlayerFieldComponent implements OnInit {
   }
 
   processLose(i:number){
-    this.playerFieldSingleComponents[i].bustString = "You Lose";
+    this.playerFieldSingleComponents[i].bustString = this.playerFieldSingleComponents[i].bustString + ": You Lose";
   }
 
   incrementStoppedPlayersCount(){
