@@ -26,6 +26,9 @@ export class PlayerFieldSingleComponent implements OnInit {
   @Output() updatePlayerInfo: EventEmitter<number> = new EventEmitter();
   @Output() calculateTotals: EventEmitter<object> = new EventEmitter(); // *Cannot send multiple parameters with EventEmitter() so use objects instead
   @Output() incrementStoppedPlayersCount: EventEmitter<number> = new EventEmitter();
+  @Output() globalDisableBetBtns: EventEmitter<any> = new EventEmitter();
+  @Output() globalEnableBetBtnsPP: EventEmitter<any> = new EventEmitter();
+  @Output() globalEnableBetBtnsREG: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
@@ -39,8 +42,9 @@ export class PlayerFieldSingleComponent implements OnInit {
    * Regular Bet -/+
    * Stop and Hit
    * 
-   * @TODO CRITICAL BUG #1: Butons dont get disabled when there are multiple slots with bets. you have to make another bet in order to activate the deactivation of the button
-   * --Possible Fix :: take all these methods back to Main-Player-Field Component and process there taking into account ALL other slots
+   * @TODO[FIXED] CRITICAL BUG #1: bet Butons dont get disabled when there are multiple slots with bets. you have to make another bet in order to activate the deactivation of the button
+   * --Possible Fix :: Write a globalDisableBetBtns() function and emit it back to player-field Component and handle it there globally across all slots
+   * -- cont'd: similarily, we may need a re-activate global buttons function
    * 
    * @TODO CRITICAL BUG #2: Deal button is clickable after making a bet and getting rid of the bet again (e.g. bet 100 then take away 100)
    *  
@@ -48,7 +52,6 @@ export class PlayerFieldSingleComponent implements OnInit {
   subtractPerfectPairBet(value){
     //console.log("Subtracting Perfect Pair Bet at seat " + this.slotInformation.seatNumber);
     
-    this.slotInformation.isPPBetMinusEnabled = null;
     this.slotInformation.perfectBet += value;
     this.slotInformation.live = true;
     
@@ -58,11 +61,11 @@ export class PlayerFieldSingleComponent implements OnInit {
     }
 
     if(!this.slotInformation.isPPBetPlusEnabled){
-      this.slotInformation.isPPBetPlusEnabled = null;
+      this.callGlobalEnableBtnsPP();
     }
 
     if(!this.slotInformation.isRegBetPlusEnabled){
-      this.slotInformation.isRegBetPlusEnabled = null;
+      this.callGlobalEnableBtnsREG();
     }
   }
 
@@ -77,15 +80,13 @@ export class PlayerFieldSingleComponent implements OnInit {
     this.slotInformation.perfectBet += value;
 
     if(this.player.money <= 100){
-      this.slotInformation.isPPBetPlusEnabled = false;
-      this.slotInformation.isRegBetPlusEnabled = false;
+      this.callGlobalDisableBtns();
     }
   }
 
   subtractRegularBet(value){
     //console.log("Subtracting Regular Bet at seat " + this.slotInformation.seatNumber);
    
-    this.slotInformation.isRegBetMinusEnabled = null;
     this.slotInformation.regularBet += value;
     this.slotInformation.live = true;
 
@@ -95,11 +96,11 @@ export class PlayerFieldSingleComponent implements OnInit {
     }
 
     if(!this.slotInformation.isRegBetPlusEnabled){
-      this.slotInformation.isRegBetPlusEnabled = null;
+      this.callGlobalEnableBtnsREG();
     }
 
     if(!this.slotInformation.isPPBetPlusEnabled){
-      this.slotInformation.isPPBetPlusEnabled = null;
+      this.callGlobalEnableBtnsPP();
     }
   }
 
@@ -114,8 +115,7 @@ export class PlayerFieldSingleComponent implements OnInit {
     this.slotInformation.regularBet += value;
 
     if(this.player.money <= 100){
-      this.slotInformation.isRegBetPlusEnabled = false;
-      this.slotInformation.isPPBetPlusEnabled = false;
+      this.callGlobalDisableBtns();
     }
   }
 
@@ -152,5 +152,17 @@ export class PlayerFieldSingleComponent implements OnInit {
   onUpdatePlayer(value){
     //console.log(value);
     this.updatePlayerInfo.emit(value);
+  }
+
+  callGlobalDisableBtns(){
+    this.globalDisableBetBtns.emit();
+  }
+
+  callGlobalEnableBtnsPP(){
+    this.globalEnableBetBtnsPP.emit();
+  }
+
+  callGlobalEnableBtnsREG(){
+    this.globalEnableBetBtnsREG.emit();
   }
 }

@@ -383,6 +383,40 @@ export class PlayerFieldComponent implements OnInit {
     }
   }
 
+  /** Disables all '+' Bet Buttons across all slots
+   *  Called from player-field-single
+   */
+  disableBetBtns(event:any){
+    let i:number;
+    let length = this.playerFieldSingleComponents.length;
+    for(i = 0; i < length; i++){
+      this.playerFieldSingleComponents[i].isRegBetPlusEnabled = false;
+      this.playerFieldSingleComponents[i].isPPBetPlusEnabled = false;
+    }
+  }
+
+  /** Enables again the PP '+' Bet Buttons across all slots
+   *  Called from player-field-single
+   */
+  enableBetBtnsPP(event:any){
+    let i:number;
+    let length = this.playerFieldSingleComponents.length;
+    for(i = 0; i < length; i++){
+      this.playerFieldSingleComponents[i].isPPBetPlusEnabled = null;
+    }
+  }
+
+  /** Enables again the REG '+' Bet Buttons across all slots
+   *  Called from player-field-single
+   */
+  enableBetBtnsREG(event:any){
+    let i:number;
+    let length = this.playerFieldSingleComponents.length;
+    for(i = 0; i < length; i++){
+      this.playerFieldSingleComponents[i].isRegBetPlusEnabled = null;
+    }
+  }
+
   initializeCardDeck(){
     this.deckOfCards = [
       {value: "A", suite: "s"},{value: "A", suite: "h"},{value: "A",suite: "d"},{value: "A",suite: "c"},
