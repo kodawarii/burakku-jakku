@@ -27,17 +27,9 @@ export class PlayerFieldSingleComponent implements OnInit {
   @Output() calculateTotals: EventEmitter<object> = new EventEmitter(); // *Cannot send multiple parameters with EventEmitter() so use objects instead
   @Output() incrementStoppedPlayersCount: EventEmitter<number> = new EventEmitter();
 
-  // Button State Props
-  isPPBetMinusEnabled:boolean;
-  isPPBetPlusEnabled:boolean;
-  isRegBetMinusEnabled:boolean;
-  isRegBetPlusEnabled:boolean;
-
   constructor() { }
 
   ngOnInit() {
-    this.isPPBetMinusEnabled = false;
-    this.isRegBetMinusEnabled = false;
   }
 
   /**
@@ -48,27 +40,29 @@ export class PlayerFieldSingleComponent implements OnInit {
    * Stop and Hit
    * 
    * @TODO CRITICAL BUG #1: Butons dont get disabled when there are multiple slots with bets. you have to make another bet in order to activate the deactivation of the button
-   * @TODO CRITICAL BUG #2: Deal button is clickable after making a bet and getting rid of it
+   * --Possible Fix :: take all these methods back to Main-Player-Field Component and process there taking into account ALL other slots
+   * 
+   * @TODO CRITICAL BUG #2: Deal button is clickable after making a bet and getting rid of the bet again (e.g. bet 100 then take away 100)
    *  
    * */ 
   subtractPerfectPairBet(value){
     //console.log("Subtracting Perfect Pair Bet at seat " + this.slotInformation.seatNumber);
     
-    this.isPPBetMinusEnabled = null;
+    this.slotInformation.isPPBetMinusEnabled = null;
     this.slotInformation.perfectBet += value;
     this.slotInformation.live = true;
     
     if(this.slotInformation.perfectBet == 0){
-      this.isPPBetMinusEnabled = false;
+      this.slotInformation.isPPBetMinusEnabled = false;
       this.slotInformation.live = false;
     }
 
-    if(!this.isPPBetPlusEnabled){
-      this.isPPBetPlusEnabled = null;
+    if(!this.slotInformation.isPPBetPlusEnabled){
+      this.slotInformation.isPPBetPlusEnabled = null;
     }
 
-    if(!this.isRegBetPlusEnabled){
-      this.isRegBetPlusEnabled = null;
+    if(!this.slotInformation.isRegBetPlusEnabled){
+      this.slotInformation.isRegBetPlusEnabled = null;
     }
   }
 
@@ -76,36 +70,36 @@ export class PlayerFieldSingleComponent implements OnInit {
     //console.log("Adding Perfect Pair Bet at seat " + this.slotInformation.seatNumber);
 
     if(this.slotInformation.perfectBet == 0){
-      this.isPPBetMinusEnabled = null;
+      this.slotInformation.isPPBetMinusEnabled = null;
       this.slotInformation.live = true;
     }
     
     this.slotInformation.perfectBet += value;
 
     if(this.player.money <= 100){
-      this.isPPBetPlusEnabled = false;
-      this.isRegBetPlusEnabled = false;
+      this.slotInformation.isPPBetPlusEnabled = false;
+      this.slotInformation.isRegBetPlusEnabled = false;
     }
   }
 
   subtractRegularBet(value){
     //console.log("Subtracting Regular Bet at seat " + this.slotInformation.seatNumber);
    
-    this.isRegBetMinusEnabled = null;
+    this.slotInformation.isRegBetMinusEnabled = null;
     this.slotInformation.regularBet += value;
     this.slotInformation.live = true;
 
     if(this.slotInformation.regularBet == 0){
-      this.isRegBetMinusEnabled = false;
+      this.slotInformation.isRegBetMinusEnabled = false;
       this.slotInformation.live = false;
     }
 
-    if(!this.isRegBetPlusEnabled){
-      this.isRegBetPlusEnabled = null;
+    if(!this.slotInformation.isRegBetPlusEnabled){
+      this.slotInformation.isRegBetPlusEnabled = null;
     }
 
-    if(!this.isPPBetPlusEnabled){
-      this.isPPBetPlusEnabled = null;
+    if(!this.slotInformation.isPPBetPlusEnabled){
+      this.slotInformation.isPPBetPlusEnabled = null;
     }
   }
 
@@ -113,15 +107,15 @@ export class PlayerFieldSingleComponent implements OnInit {
     //console.log("Adding Regular Bet at seat " + this.slotInformation.seatNumber);
 
     if(this.slotInformation.regularBet == 0){
-      this.isRegBetMinusEnabled = null;
+      this.slotInformation.isRegBetMinusEnabled = null;
       this.slotInformation.live = true;
     }
     
     this.slotInformation.regularBet += value;
 
     if(this.player.money <= 100){
-      this.isRegBetPlusEnabled = false;
-      this.isPPBetPlusEnabled = false;
+      this.slotInformation.isRegBetPlusEnabled = false;
+      this.slotInformation.isPPBetPlusEnabled = false;
     }
   }
 

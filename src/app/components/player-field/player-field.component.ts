@@ -58,7 +58,11 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
-        bustString: " "
+        bustString: " ",
+        isPPBetMinusEnabled: false,
+        isPPBetPlusEnabled: null,
+        isRegBetMinusEnabled: false,
+        isRegBetPlusEnabled: null
       },
       {
         perfectBet: 0,
@@ -70,7 +74,11 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
-        bustString: " "
+        bustString: " ",
+        isPPBetMinusEnabled: false,
+        isPPBetPlusEnabled: null,
+        isRegBetMinusEnabled: false,
+        isRegBetPlusEnabled: null
       },
       {
         perfectBet: 0,
@@ -82,7 +90,11 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
-        bustString: " "
+        bustString: " ",
+        isPPBetMinusEnabled: false,
+        isPPBetPlusEnabled: null,
+        isRegBetMinusEnabled: false,
+        isRegBetPlusEnabled: null
       },
       {
         perfectBet: 0,
@@ -94,7 +106,11 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
-        bustString: " "
+        bustString: " ",
+        isPPBetMinusEnabled: false,
+        isPPBetPlusEnabled: null,
+        isRegBetMinusEnabled: false,
+        isRegBetPlusEnabled: null
       },
       {
         perfectBet: 0,
@@ -106,7 +122,11 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
-        bustString: " "
+        bustString: " ",
+        isPPBetMinusEnabled: false,
+        isPPBetPlusEnabled: null,
+        isRegBetMinusEnabled: false,
+        isRegBetPlusEnabled: null
       },
       {
         perfectBet: 0,
@@ -118,7 +138,11 @@ export class PlayerFieldComponent implements OnInit {
         bust: false,
         isHitEnabled: false,
         isStopEnabled: false,
-        bustString: " "
+        bustString: " ",
+        isPPBetMinusEnabled: false,
+        isPPBetPlusEnabled: null,
+        isRegBetMinusEnabled: false,
+        isRegBetPlusEnabled: null
       }
     ];
   }

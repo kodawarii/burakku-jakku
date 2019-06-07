@@ -17,4 +17,9 @@ export class PlayerFieldSingleModel{
 
     isStopEnabled: boolean;
     isHitEnabled: boolean;
+
+    isPPBetMinusEnabled:boolean;
+    isPPBetPlusEnabled:boolean;
+    isRegBetMinusEnabled:boolean;
+    isRegBetPlusEnabled:boolean;
 }
