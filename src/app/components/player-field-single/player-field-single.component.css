@@ -4,7 +4,80 @@
 }
 
 td{
+    font-size: 22px;
     padding-left: 30px;
     padding-right: 20px;
-    border: 1px solid rgb(236, 236, 236);
+    border-left: 1px solid rgb(236, 236, 236);
+    border-right: 1px solid rgb(236, 236, 236);
+}
+
+button{
+    outline: none;
+}
+
+.seatNumuber{
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.betBtn{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(224, 224, 224);
+    border-radius: 8em;
+    padding: 5px 8px 5px 8px;
+    display: inline-block;
+    color: rgb(228, 228, 228);
+    text-align: center;
+    text-decoration: none;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.allInBtn{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(255, 166, 166);
+    border-radius: 6px;
+    padding: 5px 8px 5px 8px;
+    display: inline-block;
+    color: rgb(255, 83, 83);
+    text-align: center;
+    text-decoration: none;
+}
+
+.allInBtn:hover{
+    box-shadow: 0 0 12px #ff7b7b;
+}
+ 
+.allinBtnContainer{
+    padding-left: 8px;
+ }
+
+.minusBtn:hover{
+    box-shadow: 0 0 12px #ff7b7b;
+}
+
+.addBtn:hover{
+    box-shadow: 0 0 12px #8cd1ff;
+}
+
+.ctrlBtn{
+    background-color: rgb(255, 255, 255);
+    border-radius: 6px;
+    padding: 5px 8px 5px 8px;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    color: rgb(211, 211, 211);
+    border: 1px solid rgb(212, 212, 212);
+}
+
+.stopBtn:hover{
+    box-shadow: 0 0 12px #ff7b7b;
+}
+
+.hitBtn:hover{
+    box-shadow: 0 0 12px #7b8fff;
+}
+
+.ctrlBtnContainer{
+    padding-left: 8px;
 }

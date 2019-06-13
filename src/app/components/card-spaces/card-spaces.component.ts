@@ -14,10 +14,10 @@ export class CardSpacesComponent implements OnInit {
 
   cardsCleaned:PlayerFieldSingleModel; // ** This doesnt even work still 
 
-  actualCard1:string = "??";
-  actualCard2:string = "??";
-  actualCard3:string = "??";
-  actualCard4:string = "??";
+  actualCard1:string = "?";
+  actualCard2:string = "?";
+  actualCard3:string = "?";
+  actualCard4:string = "?";
 
   constructor() { }
 
@@ -29,6 +29,11 @@ export class CardSpacesComponent implements OnInit {
     }
     */
   }
+
+  /**
+   * @TODO Implement HTML for card-spaces using ngFor and dynamically add slots
+   * 
+   */
 
   showCards(x:number){
 

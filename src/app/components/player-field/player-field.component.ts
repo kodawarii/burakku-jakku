@@ -296,9 +296,9 @@ export class PlayerFieldComponent implements OnInit {
       }
 
       /** Needed this if-statement to catch Perfect-Pair Winnings Awards when its over 21 aka this.playerFieldSingleComponent[i].bust = true */
-      if(this.playerFieldSingleComponents[i].bust && this.playerFieldSingleComponents[i].perfectBet > 0){
+      if(this.playerFieldSingleComponents[i].bust && this.playerFieldSingleComponents[i].perfectBet > 0){ // @THIS LOGIC IS WRONG aka if player gets bust AND there is PP bet
+        // then user will win all the time what the fuck man
         this.processWin(i, true);
-        console.log("What the fuck");
         continue;
       }
 
@@ -307,17 +307,23 @@ export class PlayerFieldComponent implements OnInit {
       }
       
       if(dealerGotBusted){
-        this.processWin(i);
-        this.dealer.bustString = "DEALER BUST";
+        if(this.playerFieldSingleComponents[i].bust){
+          this.processLose(i);
+        }
+        else{
+          this.processWin(i);
+          this.dealer.bustString = "DEALER BUST";
+        }
       }
       
-      else if(dealerGot21){        
-          if(this.playerFieldSingleComponents[i].total == 21){
-            this.processEven(i);
-          }
-          else{
-            this.processLose(i);
-          }
+      else if(dealerGot21){
+        console.log("please work ");
+        if(this.playerFieldSingleComponents[i].total == 21){
+          this.processEven(i);
+        }
+        else{
+          this.processLose(i);
+        }
       }
         
       else if(dealerGot17ish){
@@ -433,9 +439,10 @@ export class PlayerFieldComponent implements OnInit {
      * 
      * @TODO P1 Bug #1: After some time, cards dont get refreshed and stay there although arrays are getting cleared - add PP bet and add reg bet, then 
      *                  minus that reg bet
-     * @TODO P1 Bug #2: Bet only on PP and get 21, then gg happens (might same as bug #1) - if you DO get PP, it works Fine
      * 
      * @TODO P1 Bug #3: Make 1 pp bet, then deal, then stop after 1 card. it counts as a PP 
+     * 
+     * @IDEA : re-do all betting logic?
      * 
      * */ 
 

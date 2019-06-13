@@ -1,17 +1,17 @@
 <td>
   <div>
-    <button (click)="subtractPerfectPairBet(-100); onUpdatePlayer(100)" disabled="{{slotInformation.isPPBetMinusEnabled}}"> - </button>
+    <button class="betBtn minusBtn" (click)="subtractPerfectPairBet(-100); onUpdatePlayer(100)" disabled="{{slotInformation.isPPBetMinusEnabled}}"> - </button>
     <span> ${{slotInformation.perfectBet}} </span>
-    <button (click)="addPerfectPairBet(100); onUpdatePlayer(-100)" disabled="{{slotInformation.isPPBetPlusEnabled}}"> + </button>
+    <button class="betBtn addBtn" (click)="addPerfectPairBet(100); onUpdatePlayer(-100)" disabled="{{slotInformation.isPPBetPlusEnabled}}"> + </button>
 
-    <button> All In </button>
+    <span class="allinBtnContainer"><button class="allInBtn"> All In </button></span>
   </div>
   <div>
-    <button (click)="subtractRegularBet(-100); onUpdatePlayer(100)" disabled="{{slotInformation.isRegBetMinusEnabled}}"> - </button>
+    <button class="betBtn minusBtn" (click)="subtractRegularBet(-100); onUpdatePlayer(100)" disabled="{{slotInformation.isRegBetMinusEnabled}}"> - </button>
     <span> ${{slotInformation.regularBet}} </span>
-    <button (click)="addRegularBet(100); onUpdatePlayer(-100)" disabled="{{slotInformation.isRegBetPlusEnabled}}"> + </button>
+    <button class="betBtn addBtn" (click)="addRegularBet(100); onUpdatePlayer(-100)" disabled="{{slotInformation.isRegBetPlusEnabled}}"> + </button>
 
-    <button> All In </button>
+    <span class="allinBtnContainer"><button class="allInBtn"> All In </button></span>
   </div>
   <div class="card-space">
     <app-card-spaces
@@ -26,10 +26,11 @@
   </div>
   </div>
   <div>
-    <button (click)="stop('Ready')" disabled="{{slotInformation.isStopEnabled}}"> Stop </button>
-    <button (click)="hit()" disabled="{{slotInformation.isHitEnabled}}"> HIT ME </button>
+    <span class="ctrlBtnContainer"><button class="ctrlBtn stopBtn" (click)="stop('Ready')" disabled="{{slotInformation.isStopEnabled}}"> STOP </button></span>
+    <span class="ctrlBtnContainer"><button class="ctrlBtn hitBtn" (click)="hit()" disabled="{{slotInformation.isHitEnabled}}"> HIT </button></span>
   </div>
-  <div>
-    Seat {{slotInformation.seatNumber}}
+    <br/>
+  <div class="seatNumuber">
+    SEAT {{slotInformation.seatNumber}}
   </div>
 </td>

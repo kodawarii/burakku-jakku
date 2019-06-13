@@ -1,6 +1,33 @@
 .game-status-div{
-    border: 1px solid rgb(228, 228, 228);
     text-align: center;
     padding-top: 1em;
     padding-bottom: 1em;
+    font-size: 16px;
+}
+
+button{
+    outline: none;
+}
+
+.btnContainer{
+    padding-left: 8px;
+}
+
+.commonBtn{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(224, 224, 224);
+    border-radius: 8em;
+    padding: 5px 8px 5px 8px;
+    display: inline-block;
+    color: rgb(187, 187, 187);
+    text-align: center;
+    text-decoration: none;
+}
+
+.dealBtn:hover{
+    box-shadow: 0 0 12px #ff7c7c;
+}
+
+.resetBtn:hover{
+    box-shadow: 0 0 12px #7bffae;
 }
