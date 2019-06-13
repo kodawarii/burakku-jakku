@@ -22,11 +22,11 @@
     <p> {{slotInformation.total}} </p>
   </div>
   <div>
-      <p> {{slotInformation.bustString}} </p>
+    <p> {{slotInformation.bustString}} </p>
   </div>
   </div>
   <div>
-    <button (click)="stop()" disabled="{{slotInformation.isStopEnabled}}"> Stop </button>
+    <button (click)="stop('Ready')" disabled="{{slotInformation.isStopEnabled}}"> Stop </button>
     <button (click)="hit()" disabled="{{slotInformation.isHitEnabled}}"> HIT ME </button>
   </div>
   <div>

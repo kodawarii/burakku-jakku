@@ -8,6 +8,8 @@ export class PlayerFieldSingleModel{
     regularBet:number;
     gotPP: boolean;
 
+    madeOnlyPPBet:boolean;
+
     cards: Card[];
     total:number;
 

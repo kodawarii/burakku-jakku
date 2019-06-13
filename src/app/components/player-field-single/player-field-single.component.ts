@@ -121,47 +121,85 @@ export class PlayerFieldSingleComponent implements OnInit {
     }
   }
 
-  stop(){
-    this.slotInformation.bustString = "Ready";
+  stop(message:string){
+    this.slotInformation.bustString = message;
     this.disableStopAndHitBtns();
     this.incrementStoppedPlayersCount.emit();
   }
 
-  hit(){
+  hit():number{
+    /** Generate some Random Card to HIT */
     let randomNo = Math.floor(Math.random() * this.deckOfCards.length);
     let someCard:Card = this.deckOfCards[randomNo];
 
+    /** Push that Card onto the Board AND Calculate the totals (calculateTotals() also determines BUST boolean) */
     this.slotInformation.cards.push(someCard);
     this.calculateTotals.emit({seatNumber: this.slotInformation.seatNumber, aCard: someCard}); // *Cannot send multiple parameters with EventEmitter() so use objects instead
 
-    /** Checking for PP */
+    /**
+     * Processing Hitting Cards:
+     * There are 3 cases for when there is ONLY PP-Bet :
+     *  - Player gets 21
+     *  - Player gets PP
+     *  - Player doesnt get PP / Busts
+     */
+
+    /** If there are 2 cards, check for a perfect pair */
     if(this.slotInformation.cards.length == 3){
       let card1:Card = this.slotInformation.cards[1];
       let card2:Card = this.slotInformation.cards[2];
-      if(card1.value == card2.value && card1.suite == card2.suite){
+
+      /** #A: If Player got a Perfect pair: 1. alert a message, 2. make gotPP property true OR false, 3. Check if REG Bet made */
+      if(card1.value == card2.value && card1.suite == card2.suite && this.slotInformation.perfectBet > 0){
         this.slotInformation.bustString = "Perfect Pair!";
         this.slotInformation.gotPP = true;
 
-        // Process Perfect Pair Winnings in Player Field Component
-
         /**
          * @TODO : Add feature where if there are two same value cards, you can split them into two slots
+         * @TODO BUG: Perfect pair shows as bust when 22 reached (2 x Aces) - do something about it
          * 
          */
+
+        this.stopSlotIfNoRegBetMade(); // Process Winnings
+        if(this.slotInformation.madeOnlyPPBet){
+          return 0;
+        }
+      }
+      
+      /** #B: Otherwise, if player didnt get Perfect pair*/
+      else if (this.slotInformation.perfectBet > 0){
+        this.slotInformation.bustString = "No Perfect Pair";
+        this.slotInformation.gotPP = false;
+
+        this.stopSlotIfNoRegBetMade();
+        if(this.slotInformation.madeOnlyPPBet){
+          return 0;
+        }
       }
     }
+    /**End of checking for Perfect Pair */
 
+    /** Whether the slot is bust or not was calculated by calculateTotals() above */
     if(this.slotInformation.bust){
-      this.slotInformation.bustString = "BUST";
-
-      this.disableStopAndHitBtns();
-      this.incrementStoppedPlayersCount.emit();
+      this.stop("BUST");
     }
 
+    /** Check if slot is 21 or not */
     if(this.slotInformation.total == 21){
-      this.slotInformation.bustString = "~TWENTY ONE~";
+      this.stop("~ 21 ~");
+    }
+
+    return 0;
+  }
+
+  stopSlotIfNoRegBetMade(){
+    if(this.slotInformation.madeOnlyPPBet){
       this.disableStopAndHitBtns();
       this.incrementStoppedPlayersCount.emit();
+      // and Stop hit() function 
+    }
+    else{
+      // Continue with Reg Bets....
     }
   }
 

@@ -31,6 +31,7 @@ export class PlayerFieldComponent implements OnInit {
       message: "Make at least 1 Bet!",
       bustString: " ",
       atLeastOnePlayerMadeBet: true,
+      atLeastOneREG: false,
       initialDeal: false,
       dealersCards: [{value:" ", suite: " "}],
       total: 0,
@@ -52,6 +53,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         gotPP: false,
+        madeOnlyPPBet: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 1,
@@ -69,6 +71,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         gotPP: false,
+        madeOnlyPPBet: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 2,
@@ -86,6 +89,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         gotPP: false,
+        madeOnlyPPBet: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 3,
@@ -103,6 +107,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         gotPP: false,
+        madeOnlyPPBet: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 4,
@@ -120,6 +125,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         gotPP: false,
+        madeOnlyPPBet: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 5,
@@ -137,6 +143,7 @@ export class PlayerFieldComponent implements OnInit {
         perfectBet: 0,
         regularBet: 0,
         gotPP: false,
+        madeOnlyPPBet: false,
         cards: [{value:" ", suite: " "}],
         total: 0,
         seatNumber: 6,
@@ -179,7 +186,11 @@ export class PlayerFieldComponent implements OnInit {
     //console.log("Dealing Cards in main player field component");
 
     /**
-     *  ##A: If there are  no more players to deal, deal the dealer cards 
+     * ##There is only 1 deal button
+     */
+
+    /**
+     *  ##A: Deal to the Dealer if first deal complete (dealing players)
      * */
     if(this.dealer.totalLive == this.dealer.totalStopped && this.dealer.totalStopped != 0){
       this.dealDealer();
@@ -187,7 +198,7 @@ export class PlayerFieldComponent implements OnInit {
     }
 
     /** 
-     * ##B: If there are still players to deal, deal them
+     * ##B: else deal the first card to the players
      */
     /* #1 First Update Dealers details */
     this.dealer.initialDeal = true;
@@ -216,6 +227,15 @@ export class PlayerFieldComponent implements OnInit {
          * Increment the total count of players we have dealt. So that by the end of the for loop, we know how many players are live
          */
         this.dealer.totalLive++;
+
+        /** Mark whether slot has 1. Only PP Bet or 2. At least a Reg Bet */
+        if(this.playerFieldSingleComponents[i].perfectBet > 0 && this.playerFieldSingleComponents[i].regularBet == 0){
+          this.playerFieldSingleComponents[i].madeOnlyPPBet = true;
+        }
+
+        if(this.playerFieldSingleComponents[i].regularBet > 0){
+          this.dealer.atLeastOneREG = true;
+        }
       }
     }
 
@@ -227,12 +247,12 @@ export class PlayerFieldComponent implements OnInit {
   }
 
   dealDealer(){
-    // Keep dealing until 17 reached or Busted or got 21
 
     let dealerGotBusted:boolean = false;
     let dealerGot21:boolean = false;
     let dealerGot17ish:boolean = false;
 
+    // Keep dealing until 17 reached or Busted or got 21
     while(!dealerGotBusted && !dealerGot21 && !dealerGot17ish){
       let randomNo:number = Math.floor(Math.random() * this.deckOfCards.length);
       let randomCard:Card = this.deckOfCards[randomNo];
@@ -251,23 +271,40 @@ export class PlayerFieldComponent implements OnInit {
     }
 
     /**
-     * @TODO : Check if regular bet is made earlier up -- e.g. if(noRegBetsMade){then finnishGame}
+     * @TODO : Currently: Only regular bets are made in 1 or more slots
+     * case1: Only PP bets made accross all slots 
+     * - after deal and 1 hitme, check if pp made, award winnings(or not)-and auto press stop, show msg, disable all btns and endgame
+     * 
+     * case2: one slot has only PP bet and another one has only reg bet 
+     * - after deal and 1 hitme, check if pp made, award winnings(or not)- auto press stop, show msg (no reg bet made), continue with normal reg bet slots 
+     * 
      *  */ 
 
      /**
       * Process Winnings for each slot
       */
+    this.processEndofGame(dealerGotBusted, dealerGot21, dealerGot17ish);
+  }
+
+  processEndofGame(dealerGotBusted:boolean, dealerGot21:boolean, dealerGot17ish:boolean):void{
     let i:number;
-    let length = this.playerFieldSingleComponents.length; // Learnt that this is more efficient in JavaScript rather than putting it inside the for-loop
+    let length = this.playerFieldSingleComponents.length;
     for(i = 0; i < length; i++){
+
+      if(!this.playerFieldSingleComponents[i].live){
+        continue;
+      }
+
+      /** Needed this if-statement to catch Perfect-Pair Winnings Awards when its over 21 aka this.playerFieldSingleComponent[i].bust = true */
+      if(this.playerFieldSingleComponents[i].bust && this.playerFieldSingleComponents[i].perfectBet > 0){
+        this.processWin(i, true);
+        console.log("What the fuck");
+        continue;
+      }
 
       if(this.playerFieldSingleComponents[i].bust){
         continue;
       }
-      if(!this.playerFieldSingleComponents[i].live){
-        continue;
-      }
-      
       
       if(dealerGotBusted){
         this.processWin(i);
@@ -297,7 +334,7 @@ export class PlayerFieldComponent implements OnInit {
       
       /** Process Perfect Bet Winnings */
       if(this.playerFieldSingleComponents[i].gotPP){
-        this.processWin(i, true)
+        this.processWin(i, true);
       }
     }
 
@@ -329,6 +366,7 @@ export class PlayerFieldComponent implements OnInit {
     this.dealer.totalLive = 0;
     this.dealer.totalStopped = 0;
     this.dealer.shallWeStartNew = false;
+    this.dealer.atLeastOneREG = false;
 
     /** Resetting Slots */
     let i:number;
@@ -343,10 +381,13 @@ export class PlayerFieldComponent implements OnInit {
       this.playerFieldSingleComponents[i].isHitEnabled = false;
       this.playerFieldSingleComponents[i].isStopEnabled = false;
       this.playerFieldSingleComponents[i].bustString = " ";
-      this.playerFieldSingleComponents[i].isPPBetMinusEnabled = false,
-      this.playerFieldSingleComponents[i].isPPBetPlusEnabled = null,
-      this.playerFieldSingleComponents[i].isRegBetMinusEnabled = false,
-      this.playerFieldSingleComponents[i].isRegBetPlusEnabled = null
+      this.playerFieldSingleComponents[i].isPPBetMinusEnabled = false;
+      this.playerFieldSingleComponents[i].isPPBetPlusEnabled = null;
+      this.playerFieldSingleComponents[i].isRegBetMinusEnabled = false;
+      this.playerFieldSingleComponents[i].isRegBetPlusEnabled = null;
+      this.playerFieldSingleComponents[i].madeOnlyPPBet = false;
+
+      console.log(this.playerFieldSingleComponents[i].cards);
     }
   }
 
@@ -354,21 +395,26 @@ export class PlayerFieldComponent implements OnInit {
     let currentRegBet:number = this.playerFieldSingleComponents[i].regularBet;
     let currentPPBet:number = this.playerFieldSingleComponents[i].perfectBet;
 
-    /** Process PP winnings first */
-    if(pp){
-      this.player.money += currentPPBet * 33;
-      this.playerFieldSingleComponents[i].bustString = "Perfect Pair Winnings +$" + currentPPBet*33;
+    if(this.playerFieldSingleComponents[i].regularBet > 0){
+      let winnings:number = currentRegBet * 2;
+      this.player.money += winnings;
+      this.playerFieldSingleComponents[i].bustString = "Regular Bet Winnings +$" + winnings + "";
     }
 
-    let winnings:number = currentRegBet * 2;
-    this.player.money += winnings;
-    this.playerFieldSingleComponents[i].bustString += "// Congratulations, You win: $" + winnings + "";
+    /** Process PP winnings */
+    if(pp){
+      let winnings:number = currentPPBet * 35;
+      this.player.money += winnings;
+      this.playerFieldSingleComponents[i].bustString += " and Perfect Pair Winnings +$" + winnings;
+    }
   }
 
   processEven(i:number){
-    let currentBet:number = this.playerFieldSingleComponents[i].regularBet;
-    this.player.money += currentBet;
-    this.playerFieldSingleComponents[i].bustString = "Even (You get $" + currentBet + " back)";
+    if(this.playerFieldSingleComponents[i].regularBet > 0){
+      let currentBet:number = this.playerFieldSingleComponents[i].regularBet;
+      this.player.money += currentBet;
+      this.playerFieldSingleComponents[i].bustString = "Even (You get $" + currentBet + " back)";
+    }
   }
 
   processLose(i:number){
@@ -377,20 +423,45 @@ export class PlayerFieldComponent implements OnInit {
 
   incrementStoppedPlayersCount(){
     this.dealer.totalStopped++;
+    console.log("TOTAL LIVE: " + this.dealer.totalLive);
+    console.log("TOTAL STOPPED: " + this.dealer.totalStopped);
     
     /**
      *  Activate the Deal Button again once all seats are either BUST or Stopped 
      * 
      * @TODO need to do something about when ALL BUST ie gameover
      * 
+     * @TODO P1 Bug #1: After some time, cards dont get refreshed and stay there although arrays are getting cleared - add PP bet and add reg bet, then 
+     *                  minus that reg bet
+     * @TODO P1 Bug #2: Bet only on PP and get 21, then gg happens (might same as bug #1) - if you DO get PP, it works Fine
+     * 
+     * @TODO P1 Bug #3: Make 1 pp bet, then deal, then stop after 1 card. it counts as a PP 
+     * 
      * */ 
-    if(this.dealer.totalLive == this.dealer.totalStopped && this.dealer.totalStopped != 0){
-      this.dealer.atLeastOnePlayerMadeBet = null;
-      this.dealer.message = "Ready to get scammed?";
+
+     /*
+     //// If ONLY PP made accross ALL Slots, Activate the Start New Game Button
+    if(!this.dealer.atLeastOneREG){
+      console.log(this.dealer.atLeastOneREG);
+      this.dealer.message = "Game Over";
+
+      // Process Winnings
+      this.processEndofGame();
+    }
+    */
+
+    //// Otherwise continue game for Regular Bets (PP Bet ONLY Slots should be disabled) 
+     if(this.dealer.totalLive == this.dealer.totalStopped && this.dealer.totalStopped != 0){
+      this.dealer.atLeastOnePlayerMadeBet = null; // Enables Deal Button
+      this.dealer.message = "Ready to get scammed?"; // showing this message
+    }
+    else{
+      console.log("Player still making decisions");
+      // ... Player is still making bets
     }
   }
 
-  calculateTotalsOfPlayer(seatAndCardPair){
+  calculateTotalsOfPlayer(seatAndCardPair:any){
     this.playerFieldSingleComponents[seatAndCardPair.seatNumber - 1].total += this.getNumberValueOf(seatAndCardPair.aCard.value);
 
     if(this.playerFieldSingleComponents[seatAndCardPair.seatNumber - 1].total > 21){
@@ -434,6 +505,7 @@ export class PlayerFieldComponent implements OnInit {
 
   initializeCardDeck(){
     this.deckOfCards = [
+      /*
       {value: "A", suite: "s"},{value: "A", suite: "h"},{value: "A",suite: "d"},{value: "A",suite: "c"},
       {value: "2", suite: "s"},{value: "2", suite: "h"},{value: "2",suite: "d"},{value: "2",suite: "c"},
       {value: "3", suite: "s"},{value: "3", suite: "h"},{value: "3",suite: "d"},{value: "3",suite: "c"},
@@ -447,26 +519,17 @@ export class PlayerFieldComponent implements OnInit {
       {value: "J", suite: "s"},{value: "J", suite: "h"},{value: "J",suite: "d"},{value: "J",suite: "c"},
       {value: "Q", suite: "s"},{value: "Q", suite: "h"},{value: "Q",suite: "d"},{value: "Q",suite: "c"},
       {value: "K", suite: "s"},{value: "K", suite: "h"},{value: "K",suite: "d"},{value: "K",suite: "c"},
-
-
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
-
+      */
+     
+      {value: "A", suite: "s"},{value: "A", suite: "s"},{value: "A", suite: "s"},{value: "A", suite: "s"},
+      {value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},{value: "K",suite: "c"},
     ]
   }
 
   getNumberValueOf(letter:string):number{
     switch(letter){
       case "A":
-      return 1;
+      return 11;
 
       case "K":
       return 10;
