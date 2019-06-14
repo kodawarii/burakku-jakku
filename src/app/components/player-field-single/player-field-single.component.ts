@@ -186,7 +186,7 @@ export class PlayerFieldSingleComponent implements OnInit {
 
     /** Check if slot is 21 or not */
     if(this.slotInformation.total == 21){
-      this.stop("~ 21 ~");
+      this.stop("TWENTY ONE");
     }
 
     return 0;

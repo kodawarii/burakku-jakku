@@ -296,8 +296,7 @@ export class PlayerFieldComponent implements OnInit {
       }
 
       /** Needed this if-statement to catch Perfect-Pair Winnings Awards when its over 21 aka this.playerFieldSingleComponent[i].bust = true */
-      if(this.playerFieldSingleComponents[i].bust && this.playerFieldSingleComponents[i].perfectBet > 0){ // @THIS LOGIC IS WRONG aka if player gets bust AND there is PP bet
-        // then user will win all the time what the fuck man
+      if(this.playerFieldSingleComponents[i].bust && this.playerFieldSingleComponents[i].gotPP){
         this.processWin(i, true);
         continue;
       }
@@ -380,18 +379,24 @@ export class PlayerFieldComponent implements OnInit {
     for(i = 0; i < length; i++){
       this.playerFieldSingleComponents[i].perfectBet = 0;
       this.playerFieldSingleComponents[i].regularBet = 0;
+      this.playerFieldSingleComponents[i].gotPP = false;
+
+      this.playerFieldSingleComponents[i].madeOnlyPPBet = false;
+
       this.playerFieldSingleComponents[i].cards = [{value:" ", suite: " "}];
       this.playerFieldSingleComponents[i].total = 0;
+
       this.playerFieldSingleComponents[i].live = false;
       this.playerFieldSingleComponents[i].bust = false;
+      this.playerFieldSingleComponents[i].bustString = " ";
+
       this.playerFieldSingleComponents[i].isHitEnabled = false;
       this.playerFieldSingleComponents[i].isStopEnabled = false;
-      this.playerFieldSingleComponents[i].bustString = " ";
+      
       this.playerFieldSingleComponents[i].isPPBetMinusEnabled = false;
       this.playerFieldSingleComponents[i].isPPBetPlusEnabled = null;
       this.playerFieldSingleComponents[i].isRegBetMinusEnabled = false;
       this.playerFieldSingleComponents[i].isRegBetPlusEnabled = null;
-      this.playerFieldSingleComponents[i].madeOnlyPPBet = false;
 
       console.log(this.playerFieldSingleComponents[i].cards);
     }
@@ -401,25 +406,29 @@ export class PlayerFieldComponent implements OnInit {
     let currentRegBet:number = this.playerFieldSingleComponents[i].regularBet;
     let currentPPBet:number = this.playerFieldSingleComponents[i].perfectBet;
 
+    let totalWinnings:number = 0;
+
     if(this.playerFieldSingleComponents[i].regularBet > 0){
       let winnings:number = currentRegBet * 2;
+      totalWinnings += winnings;
       this.player.money += winnings;
-      this.playerFieldSingleComponents[i].bustString = "Regular Bet Winnings +$" + winnings + "";
     }
 
     /** Process PP winnings */
     if(pp){
       let winnings:number = currentPPBet * 35;
+      totalWinnings += winnings;
       this.player.money += winnings;
-      this.playerFieldSingleComponents[i].bustString += " and Perfect Pair Winnings +$" + winnings;
     }
+
+    this.playerFieldSingleComponents[i].bustString = "You win $" + totalWinnings;
   }
 
   processEven(i:number){
     if(this.playerFieldSingleComponents[i].regularBet > 0){
       let currentBet:number = this.playerFieldSingleComponents[i].regularBet;
       this.player.money += currentBet;
-      this.playerFieldSingleComponents[i].bustString = "Even (You get $" + currentBet + " back)";
+      this.playerFieldSingleComponents[i].bustString = "Even";
     }
   }
 
@@ -529,9 +538,8 @@ export class PlayerFieldComponent implements OnInit {
       {value: "K", suite: "♠"},{value: "K", suite: "♥"},{value: "K", suite: "♦"},{value: "K", suite: "♣"},
       */      
       
-      {value: "A", suite: "♠"},{value: "A", suite: "♠"},{value: "A", suite: "♠"},{value: "A", suite: "♠"},
-      {value: "K", suite: "♣"},{value: "K", suite: "♣"},{value: "K", suite: "♣"},{value: "K",suite: "♣"},
-      
+      {value: "A", suite: "♠"},
+      {value: "K", suite: "♣"}
     ]
   }
 
