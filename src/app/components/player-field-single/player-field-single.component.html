@@ -1,4 +1,8 @@
 <td>
+  <div class="seatNumuber">
+    SEAT {{slotInformation.seatNumber}}
+  </div>
+  <br/>
   <div>
     <button class="betBtn minusBtn" (click)="subtractPerfectPairBet(-100); onUpdatePlayer(100)" disabled="{{slotInformation.isPPBetMinusEnabled}}"> - </button>
     <span> ${{slotInformation.perfectBet}} </span>
@@ -28,9 +32,5 @@
   <div>
     <span class="ctrlBtnContainer"><button class="ctrlBtn stopBtn" (click)="stop('Ready')" disabled="{{slotInformation.isStopEnabled}}"> STOP </button></span>
     <span class="ctrlBtnContainer"><button class="ctrlBtn hitBtn" (click)="hit()" disabled="{{slotInformation.isHitEnabled}}"> HIT </button></span>
-  </div>
-    <br/>
-  <div class="seatNumuber">
-    SEAT {{slotInformation.seatNumber}}
   </div>
 </td>

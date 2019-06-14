@@ -527,9 +527,7 @@ export class PlayerFieldComponent implements OnInit {
       {value: "J", suite: "♠"},{value: "J", suite: "♥"},{value: "J", suite: "♦"},{value: "J", suite: "♣"},
       {value: "Q", suite: "♠"},{value: "Q", suite: "♥"},{value: "Q", suite: "♦"},{value: "Q", suite: "♣"},
       {value: "K", suite: "♠"},{value: "K", suite: "♥"},{value: "K", suite: "♦"},{value: "K", suite: "♣"},
-      */
-      
-      
+      */      
       
       {value: "A", suite: "♠"},{value: "A", suite: "♠"},{value: "A", suite: "♠"},{value: "A", suite: "♠"},
       {value: "K", suite: "♣"},{value: "K", suite: "♣"},{value: "K", suite: "♣"},{value: "K",suite: "♣"},
