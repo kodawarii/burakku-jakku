@@ -1,8 +1,4 @@
-.card-space{
-    border: 1px solid rgb(197, 197, 197);
-    padding: 4px;
-}
-
-.card-space-outer{
-    padding-right: 2px;
+.card{
+    border-top: 1px solid rgb(233, 233, 233);
+    border-bottom: 1px solid rgb(233, 233, 233);
 }

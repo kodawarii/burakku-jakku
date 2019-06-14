@@ -1,16 +1,9 @@
-<div class="card-space-container">
-  <div>
-    <span class="card-space-outer">
-      <span (click)="showCards(1)" class="card-space"> {{actualCard1}} </span>
-    </span>
-    <span class="card-space-outer">
-      <span (click)="showCards(2)" class="card-space"> {{actualCard2}} </span>
-    </span>
-    <span class="card-space-outer">
-      <span (click)="showCards(3)" class="card-space"> {{actualCard3}} </span>
-    </span>
-    <span class="card-space-outer">
-      <span (click)="showCards(4)" class="card-space"> {{actualCard4}} </span>
+<div>
+  <div>    
+    <span class="card"
+    *ngFor = "let card of cards"
+    >
+    {{card.value}}{{card.suite}}
     </span>
   </div>
 </div>

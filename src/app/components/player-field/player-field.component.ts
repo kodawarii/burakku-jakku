@@ -512,6 +512,7 @@ export class PlayerFieldComponent implements OnInit {
 
   initializeCardDeck(){
     this.deckOfCards = [
+      
       /*
       {value: "A", suite: "♠"},{value: "A", suite: "♥"},{value: "A", suite: "♦"},{value: "A", suite: "♣"},
       {value: "2", suite: "♠"},{value: "2", suite: "♥"},{value: "2", suite: "♦"},{value: "2", suite: "♣"},
@@ -527,9 +528,12 @@ export class PlayerFieldComponent implements OnInit {
       {value: "Q", suite: "♠"},{value: "Q", suite: "♥"},{value: "Q", suite: "♦"},{value: "Q", suite: "♣"},
       {value: "K", suite: "♠"},{value: "K", suite: "♥"},{value: "K", suite: "♦"},{value: "K", suite: "♣"},
       */
-     
+      
+      
+      
       {value: "A", suite: "♠"},{value: "A", suite: "♠"},{value: "A", suite: "♠"},{value: "A", suite: "♠"},
       {value: "K", suite: "♣"},{value: "K", suite: "♣"},{value: "K", suite: "♣"},{value: "K",suite: "♣"},
+      
     ]
   }
 
