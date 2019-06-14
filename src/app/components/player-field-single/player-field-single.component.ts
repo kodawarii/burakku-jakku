@@ -156,7 +156,6 @@ export class PlayerFieldSingleComponent implements OnInit {
 
         /**
          * @TODO : Add feature where if there are two same value cards, you can split them into two slots
-         * @TODO BUG: Perfect pair shows as bust when 22 reached (2 x Aces) - do something about it
          * 
          */
 

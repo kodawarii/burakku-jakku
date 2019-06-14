@@ -237,6 +237,12 @@ export class PlayerFieldComponent implements OnInit {
           this.dealer.atLeastOneREG = true;
         }
       }
+
+      /** #5.1 and Disable the betting buttons for ALL SLOTS */
+      this.playerFieldSingleComponents[i].isPPBetMinusEnabled = false;
+      this.playerFieldSingleComponents[i].isPPBetPlusEnabled = false;
+      this.playerFieldSingleComponents[i].isRegBetMinusEnabled = false;
+      this.playerFieldSingleComponents[i].isRegBetPlusEnabled = false;
     }
 
     /* #6 Calculate Total for Dealer */
@@ -269,16 +275,6 @@ export class PlayerFieldComponent implements OnInit {
         dealerGot17ish = true;
       }
     }
-
-    /**
-     * @TODO : Currently: Only regular bets are made in 1 or more slots
-     * case1: Only PP bets made accross all slots 
-     * - after deal and 1 hitme, check if pp made, award winnings(or not)-and auto press stop, show msg, disable all btns and endgame
-     * 
-     * case2: one slot has only PP bet and another one has only reg bet 
-     * - after deal and 1 hitme, check if pp made, award winnings(or not)- auto press stop, show msg (no reg bet made), continue with normal reg bet slots 
-     * 
-     *  */ 
 
      /**
       * Process Winnings for each slot
@@ -356,7 +352,7 @@ export class PlayerFieldComponent implements OnInit {
   resetGame(event:any){
     console.log("Starting New Game");
 
-    /** @TODO Add "Shuffling" Bullshit Splash/Popup screen */
+    /** @TODO Add "Shuffling" 'fake' Splash/Popup screen */
 
     /** Resetting HUD Thingies */
     this.dealer.atLeastOnePlayerMadeBet = false;
@@ -444,32 +440,12 @@ export class PlayerFieldComponent implements OnInit {
     /**
      *  Activate the Deal Button again once all seats are either BUST or Stopped 
      * 
-     * @TODO need to do something about when ALL BUST ie gameover
-     * 
-     * @TODO P1 Bug #1: After some time, cards dont get refreshed and stay there although arrays are getting cleared - add PP bet and add reg bet, then 
-     *                  minus that reg bet
-     * 
-     * @TODO P1 Bug #3: Make 1 pp bet, then deal, then stop after 1 card. it counts as a PP 
-     * 
-     * @IDEA : re-do all betting logic?
-     * 
-     * */ 
+     * */
 
-     /*
-     //// If ONLY PP made accross ALL Slots, Activate the Start New Game Button
-    if(!this.dealer.atLeastOneREG){
-      console.log(this.dealer.atLeastOneREG);
-      this.dealer.message = "Game Over";
-
-      // Process Winnings
-      this.processEndofGame();
-    }
-    */
-
-    //// Otherwise continue game for Regular Bets (PP Bet ONLY Slots should be disabled) 
+    //// Continue game for Regular Bets (PP Bet ONLY Slots should be disabled) 
      if(this.dealer.totalLive == this.dealer.totalStopped && this.dealer.totalStopped != 0){
       this.dealer.atLeastOnePlayerMadeBet = null; // Enables Deal Button
-      this.dealer.message = "Ready to get scammed?"; // showing this message
+      this.dealer.message = "Go Dealer"; // showing this message
     }
     else{
       console.log("Player still making decisions");
@@ -521,8 +497,6 @@ export class PlayerFieldComponent implements OnInit {
 
   initializeCardDeck(){
     this.deckOfCards = [
-      
-      /*
       {value: "A", suite: "♠"},{value: "A", suite: "♥"},{value: "A", suite: "♦"},{value: "A", suite: "♣"},
       {value: "2", suite: "♠"},{value: "2", suite: "♥"},{value: "2", suite: "♦"},{value: "2", suite: "♣"},
       {value: "3", suite: "♠"},{value: "3", suite: "♥"},{value: "3", suite: "♦"},{value: "3", suite: "♣"},
@@ -536,10 +510,11 @@ export class PlayerFieldComponent implements OnInit {
       {value: "J", suite: "♠"},{value: "J", suite: "♥"},{value: "J", suite: "♦"},{value: "J", suite: "♣"},
       {value: "Q", suite: "♠"},{value: "Q", suite: "♥"},{value: "Q", suite: "♦"},{value: "Q", suite: "♣"},
       {value: "K", suite: "♠"},{value: "K", suite: "♥"},{value: "K", suite: "♦"},{value: "K", suite: "♣"},
-      */      
-      
+            
+      /*
       {value: "A", suite: "♠"},
       {value: "K", suite: "♣"}
+      */
     ]
   }
 
