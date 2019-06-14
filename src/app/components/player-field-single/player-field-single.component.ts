@@ -49,6 +49,7 @@ export class PlayerFieldSingleComponent implements OnInit {
    * @TODO CRITICAL BUG #2: Deal button is clickable after making a bet and getting rid of the bet again (e.g. bet 100 then take away 100)
    * 
    * @FEATURE Make slider for betting sizes
+   * @DEATURE Make Buttons glow when players are still live
    *  
    * */ 
   subtractPerfectPairBet(value){

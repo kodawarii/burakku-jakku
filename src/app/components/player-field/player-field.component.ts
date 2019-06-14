@@ -28,7 +28,7 @@ export class PlayerFieldComponent implements OnInit {
     this.initializeCardDeck();
 
     this.dealer = {
-      message: "Make at least 1 Bet!",
+      message: "Place Your Bets",
       bustString: " ",
       atLeastOnePlayerMadeBet: true,
       atLeastOneREG: false,
@@ -356,7 +356,7 @@ export class PlayerFieldComponent implements OnInit {
 
     /** Resetting HUD Thingies */
     this.dealer.atLeastOnePlayerMadeBet = false;
-    this.dealer.message = "Make at Least one Bet!";
+    this.dealer.message = "Place Your Bets";
 
     /** Resetting Dealer */
     this.dealer.atLeastOnePlayerMadeBet = false;
@@ -429,7 +429,7 @@ export class PlayerFieldComponent implements OnInit {
   }
 
   processLose(i:number){
-    this.playerFieldSingleComponents[i].bustString = this.playerFieldSingleComponents[i].bustString + ": You Lose";
+    this.playerFieldSingleComponents[i].bustString = "Loser";
   }
 
   incrementStoppedPlayersCount(){

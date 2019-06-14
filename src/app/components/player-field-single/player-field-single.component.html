@@ -3,6 +3,9 @@
     SEAT {{slotInformation.seatNumber}}
   </div>
   <br/>
+  <div class="seatInfo">
+    PERFECT PAIRS
+  </div>
   <div>
     <button class="betBtn minusBtn" (click)="subtractPerfectPairBet(-100); onUpdatePlayer(100)" disabled="{{slotInformation.isPPBetMinusEnabled}}"> - </button>
     <span> ${{slotInformation.perfectBet}} </span>
@@ -10,12 +13,16 @@
 
     <span class="allinBtnContainer"><button class="allInBtn"> All In </button></span>
   </div>
+  <br/>
   <div>
     <button class="betBtn minusBtn" (click)="subtractRegularBet(-100); onUpdatePlayer(100)" disabled="{{slotInformation.isRegBetMinusEnabled}}"> - </button>
     <span> ${{slotInformation.regularBet}} </span>
     <button class="betBtn addBtn" (click)="addRegularBet(100); onUpdatePlayer(-100)" disabled="{{slotInformation.isRegBetPlusEnabled}}"> + </button>
 
     <span class="allinBtnContainer"><button class="allInBtn"> All In </button></span>
+  </div>
+  <div class="seatInfo">
+      REGULAR BET
   </div>
   <div class="card-space">
     <app-card-spaces
