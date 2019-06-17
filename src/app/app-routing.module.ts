@@ -5,6 +5,10 @@ import { Routes, RouterModule } from '@angular/router';
 import {PlayerFieldComponent} from './components/player-field/player-field.component';
 import {LoginComponent} from './components/pages/login/login.component';
 
+/**
+ * @TODO nav Banner, About page, Login page, Logout link, etc
+ */
+
 const routes: Routes = [
   {path: '', component: PlayerFieldComponent},
   {path: 'login', component: LoginComponent},
