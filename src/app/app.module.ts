@@ -8,6 +8,8 @@ import { GameStatusBarComponent } from './components/game-status-bar/game-status
 import { PlayerFieldComponent } from './components/player-field/player-field.component';
 import { PlayerFieldSingleComponent } from './components/player-field-single/player-field-single.component';
 import { HeadsUpDisplayComponent } from './components/heads-up-display/heads-up-display.component';
+import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './components/pages/login/login.component';
 
 @NgModule({
   declarations: [
@@ -17,10 +19,12 @@ import { HeadsUpDisplayComponent } from './components/heads-up-display/heads-up-
     GameStatusBarComponent,
     PlayerFieldComponent,
     PlayerFieldSingleComponent,
-    HeadsUpDisplayComponent
+    HeadsUpDisplayComponent,
+    LoginComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -344,6 +344,10 @@ export class PlayerFieldComponent implements OnInit {
 
     /** Activate the Start New Game Button */
     this.dealer.shallWeStartNew = null;
+
+    /**
+     * @FEATURE Add Game Over Splash Screen once player reaches $0 "Game Over man, Game Over!"
+     */
   }
 
   /**
@@ -399,6 +403,12 @@ export class PlayerFieldComponent implements OnInit {
   }
 
   processWin(i:number, pp:boolean = false){
+    /**
+     * @BUG bet 100 on pp, bet 100 on reg, Get a PP, make Dealer get 21, then reg bet also wins for some reason
+     * 
+     * @FEATURE If Only PP bet made, then deal 2 cards and end slot
+     */
+
     let currentRegBet:number = this.playerFieldSingleComponents[i].regularBet;
     let currentPPBet:number = this.playerFieldSingleComponents[i].perfectBet;
 
