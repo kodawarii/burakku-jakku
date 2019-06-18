@@ -11,6 +11,9 @@ import { HeadsUpDisplayComponent } from './components/heads-up-display/heads-up-
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './components/pages/login/login.component';
 import { NavComponent } from './components/nav/nav.component';
+import { AboutComponent } from './components/pages/about/about.component';
+import { ProfileComponent } from './components/pages/profile/profile.component';
+import { LogoutComponent } from './components/pages/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { NavComponent } from './components/nav/nav.component';
     PlayerFieldSingleComponent,
     HeadsUpDisplayComponent,
     LoginComponent,
-    NavComponent
+    NavComponent,
+    AboutComponent,
+    ProfileComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
