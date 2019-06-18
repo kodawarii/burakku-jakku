@@ -10,6 +10,7 @@ import { PlayerFieldSingleComponent } from './components/player-field-single/pla
 import { HeadsUpDisplayComponent } from './components/heads-up-display/heads-up-display.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './components/pages/login/login.component';
+import { NavComponent } from './components/nav/nav.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginComponent } from './components/pages/login/login.component';
     PlayerFieldComponent,
     PlayerFieldSingleComponent,
     HeadsUpDisplayComponent,
-    LoginComponent
+    LoginComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,
