@@ -63,20 +63,21 @@ form{
 
 .registerBtn{
     border: 0;
-    background: none;
+    background: #2eccb2;
     display: block;
     margin: 20px auto;
     text-align: center;
     border: 2px solid #2eccb2;
     padding: 14px 32px;
     outline: none;
-    color: rgb(0, 0, 0);
+    color: white;
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer;
 }
 
 .registerBtn:hover{
-    color: white;
-    background: #2eccb2;
+    color: rgb(211, 211, 211);
+    background: #249280;
+    border: 2px solid #249280;
 }
