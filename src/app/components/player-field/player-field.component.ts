@@ -14,12 +14,12 @@ export class PlayerFieldComponent implements OnInit {
 
   // OVERALL Player-Field Props - Has All Data:
   // Player Info and Player Fields:
-  private deckOfCards:Card[];
-  private playerFieldSingleComponents:PlayerFieldSingleModel[];
-  private player:Player;
+  public deckOfCards:Card[];
+  public playerFieldSingleComponents:PlayerFieldSingleModel[];
+  public player:Player;
 
   // Dealer Info:
-  private dealer:Dealer;
+  public dealer:Dealer;
 
   constructor() { }
 
